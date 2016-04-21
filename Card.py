@@ -8,7 +8,10 @@ class Card:
   SPADES   = 2
   CLUBS    = 3
 
-  nvalToSuit = [HEARTS, HEARTS, HEARTS, HEARTS]
+  nvalToSuit = [HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, \
+                HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, \
+                DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, \
+                DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS]
 
   def __init__(self, nvalue):
     self.numericValue = nvalue
@@ -17,6 +20,6 @@ class Card:
     return self.nvalToSuit[self.numericValue]
 
 if __name__ == '__main__':
-  c = Card(2)
+  c = Card(14)
   print c.suit()
 
