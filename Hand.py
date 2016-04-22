@@ -7,15 +7,22 @@ class Hand:
 
   VAL_NONE = -1
   VAL_ROYAL_FLUSH = 0
-  
+
   def __init__(self):
     self.hand = []
 
   def accept(self, card):
     self.hand.append(card)
 
+  def __suitCount(self):
+    card = cards[0]
+    suitCountDict = {card.HEARTS : 0, card.DIAMONDS : 0, card.SPADES : 0, card.CLUBS : 0}
+    for card in cards:
+
   def evaluate(self):
-    return self.nvalToNumericRank[self.numericValue]
+    if len(self.hand) != 7:
+      return None
+    return VAL_NONE, self.hand
 
   def symbolicRank(self):
     n = self.numericRank()
