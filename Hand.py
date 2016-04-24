@@ -7,6 +7,7 @@ class Hand:
 
   VAL_NONE = -1
   VAL_ROYAL_FLUSH = 0
+  VAL_FLUSH = 4
 
   def __init__(self):
     self.cards = []
@@ -14,19 +15,31 @@ class Hand:
   def accept(self, card):
     self.cards.append(card)
 
+  def __sortCards(self):
+    self.sortedCards = sorted(self.cards)
+
+  # Returns a list of tuples(Card.SUIT, n)
   def __suitCount(self):
     card = self.cards[0]
-    suitCountDict = {card.HEARTS : 0, card.DIAMONDS : 0, card.SPADES : 0, card.CLUBS : 0}
+    self.suitCountDict = {card.HEARTS : 0, card.DIAMONDS : 0, card.SPADES : 0, card.CLUBS : 0}
     for card in self.cards:
-      suitCountDict[card.suit()] += 1
-    print suitCountDict
+      self.suitCountDict[card.suit()] += 1
+    # Sort the suits in descending order of counts(the most counts first)
+    sortedKeys = sorted(self.suitCountDict, key=self.suitCountDict.__getitem__, reverse=True)
+    self.suitCountOrdered = [(k, self.suitCountDict[k]) for k in sortedKeys]
+
+    return self.suitCountOrdered
 
 
   def evaluate(self):
     if len(self.cards) != 7:
       return None
-    self.__suitCount();
-    return VAL_NONE, self.hand
+    self.__sortCards()
+    self.__suitCount()
+
+    suit, count = self.suitCountOrdered[0]
+    print suit, count
+    return self.VAL_FLUSH, self.suitCountOrdered
 
 if __name__ == '__main__':
   h = Hand()

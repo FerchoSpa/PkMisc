@@ -8,6 +8,8 @@ class Card:
   SPADES   = 2
   CLUBS    = 3
 
+  suits = [HEARTS, DIAMONDS, SPADES, CLUBS]
+
   ACE   = 'A'
   ONE   = '1'
   DEUCE = '2'

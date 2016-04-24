@@ -2,44 +2,27 @@
 
 import unittest
 
+import Hand
 import Card
 
-class TestCardMethods(unittest.TestCase):
+class TestHandMethods(unittest.TestCase):
 
-  def checkSuitAndRanks(self, c, suit, numericRank):
-    self.assertEqual(c.suit(), suit)
-    self.assertEqual(c.numericRank(), numericRank)
-    self.assertEqual(c.symbolicRank(), c.numericRankToStringRank(numericRank))
+  def testAllHeart(self):
+    h = Hand.Hand()
 
-  def testHeartDeuce(self):
-    c = Card.Card(1)
-    self.checkSuitAndRanks(c, c.HEARTS, 2)
+    c = Card.Card(1); h.accept(c)
+    c = Card.Card(2); h.accept(c)
+    c = Card.Card(3); h.accept(c)
+    c = Card.Card(4); h.accept(c)
+    c = Card.Card(5); h.accept(c)
+    c = Card.Card(6); h.accept(c)
+    c = Card.Card(7); h.accept(c)
 
-  def testHearts(self):
-    for i in range(0, 13):
-        c = Card.Card(i)
-        self.checkSuitAndRanks(c, c.HEARTS, i+1)
-
-  def testDiamonds(self):
-    for i in range(0, 13):
-        c = Card.Card(13+i)
-        self.checkSuitAndRanks(c, c.DIAMONDS, i+1)
+    rank, hv = h.evaluate()
+    print "fer:", hv
+    self.assertEqual(len(hv), 4)
 
 
-
-  def testAllSuits(self):
-    for i in range(0, 13):
-        c = Card.Card(0*13+i)
-        self.checkSuitAndRanks(c, c.HEARTS, i+1)
-    for i in range(0, 13):
-        c = Card.Card(1*13+i)
-        self.checkSuitAndRanks(c, c.DIAMONDS, i+1)
-    for i in range(0, 13):
-        c = Card.Card(2*13+i)
-        self.checkSuitAndRanks(c, c.SPADES, i+1)
-    for i in range(0, 13):
-        c = Card.Card(3*13+i)
-        self.checkSuitAndRanks(c, c.CLUBS, i+1)
 
 
 if __name__ == '__main__':
