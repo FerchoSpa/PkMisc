@@ -9,29 +9,35 @@ class Hand:
   VAL_ROYAL_FLUSH = 0
 
   def __init__(self):
-    self.hand = []
+    self.cards = []
 
   def accept(self, card):
-    self.hand.append(card)
+    self.cards.append(card)
 
   def __suitCount(self):
-    card = cards[0]
+    card = self.cards[0]
     suitCountDict = {card.HEARTS : 0, card.DIAMONDS : 0, card.SPADES : 0, card.CLUBS : 0}
-    for card in cards:
+    for card in self.cards:
+      suitCountDict[card.suit()] += 1
+    print suitCountDict
+
 
   def evaluate(self):
-    if len(self.hand) != 7:
+    if len(self.cards) != 7:
       return None
+    self.__suitCount();
     return VAL_NONE, self.hand
 
-  def symbolicRank(self):
-    n = self.numericRank()
-    return self.numericRankToSymbolicRank[n]
-
-  def numericRankToStringRank(self, n):
-    return self.numericRankToSymbolicRank[n]
-
 if __name__ == '__main__':
-  c = Card(14)
-  print c.suit()
+  h = Hand()
+
+  c = Card.Card(1); h.accept(c)
+  c = Card.Card(2); h.accept(c)
+  c = Card.Card(3); h.accept(c)
+  c = Card.Card(4); h.accept(c)
+  c = Card.Card(5); h.accept(c)
+  c = Card.Card(6); h.accept(c)
+  c = Card.Card(7); h.accept(c)
+
+  h.evaluate()
 
