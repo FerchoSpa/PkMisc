@@ -24,10 +24,7 @@ class Hand:
     self.cards.append(card)
 
   def __sortCards(self):
-    #sorted(student_objects, key=lambda student: student.age)
-    #self.sortedCards = sorted(self.cards)
     self.sortedCards = sorted(self.cards, key=lambda card: card.numericValue)
-    print "__sortCards... sortedCards:", self.sortedCards
 
   # Returns a list of tuples(Card.SUIT, n)
   def __suitCount(self):
@@ -42,13 +39,10 @@ class Hand:
     return self.suitCountOrdered
 
   # It doesn't consider Royal Flush (as it was evaluated already)
-  def __isStraightFlushFromThisCard(self, idx, suit, lCards):
+  def __isStraightFlushFromThisCard(self, suit, lCards):
     previousCard = lCards[0].numericRank()
     count = 1
-    print "__isStraightFlushFromThisCard(idx:{}, suit:{})".format(idx, suit)
-    print lCards
     for card in lCards[1:]:
-      print card
       if card.suit() != suit:
         return False
       if card.numericRank() == previousCard+1:
@@ -65,7 +59,7 @@ class Hand:
     cardsInRoyalFlush = 0;
     for idx, card in enumerate(self.sortedCards):
       if card.suit() == suit:
-        return self.__isStraightFlushFromThisCard(idx, suit, self.sortedCards)
+        return self.__isStraightFlushFromThisCard(suit, self.sortedCards[idx:])
     return False
 
   def __isRoyalFlush(self, suit):
@@ -81,7 +75,6 @@ class Hand:
     if len(self.cards) != 7:
       return None
     self.__sortCards()
-    print "sortedCards:", self.sortedCards
     self.__suitCount()
 
     suit, count = self.suitCountOrdered[0]

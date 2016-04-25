@@ -41,7 +41,7 @@ class TestHandMethods(unittest.TestCase):
     c = Card.Card(13*d+9); h.accept(c)
 
     rank, hv = h.evaluate()
-    print "fer:", hv
+
     self.assertEqual(len(hv), 4)
     suit, count = hv[0]
     self.assertEqual(suit, d)
@@ -51,16 +51,18 @@ class TestHandMethods(unittest.TestCase):
   def testStraightFlushHeart(self):
     h = Hand.Hand()
 
-    c = Card.Card(2); h.accept(c)
+    d = 0
+
+    c = Card.Card(13*d+2); h.accept(c)
     c = Card.Card(15); h.accept(c)
-    c = Card.Card(5); h.accept(c)
-    c = Card.Card(4); h.accept(c)
-    c = Card.Card(1); h.accept(c)
+    c = Card.Card(13*d+5); h.accept(c)
+    c = Card.Card(13*d+4); h.accept(c)
+    c = Card.Card(13*d+1); h.accept(c)
     c = Card.Card(32); h.accept(c)
-    c = Card.Card(3); h.accept(c)
+    c = Card.Card(13*d+3); h.accept(c)
 
     rank, hv = h.evaluate()
-    print "rank:", rank, ", hv:", hv
+
     self.assertEqual(len(hv), 4)
     suit, count = hv[0]
     self.assertEqual(suit, 0)
