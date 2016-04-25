@@ -65,7 +65,28 @@ class TestHandMethods(unittest.TestCase):
 
     self.assertEqual(len(hv), 4)
     suit, count = hv[0]
-    self.assertEqual(suit, 0)
+    self.assertEqual(suit, d)
+    self.assertEqual(count, 5)
+    self.assertEqual(rank, h.VAL_STRAIGHT_FLUSH)
+
+  def testStraightFlushSpades(self):
+    h = Hand.Hand()
+
+    d = 3
+
+    c = Card.Card(13*d+2); h.accept(c)
+    c = Card.Card(15); h.accept(c)
+    c = Card.Card(13*d+1); h.accept(c)
+    c = Card.Card(13*d+4); h.accept(c)
+    c = Card.Card(22); h.accept(c)
+    c = Card.Card(13*d+0); h.accept(c)
+    c = Card.Card(13*d+3); h.accept(c)
+
+    rank, hv = h.evaluate()
+
+    self.assertEqual(len(hv), 4)
+    suit, count = hv[0]
+    self.assertEqual(suit, d)
     self.assertEqual(count, 5)
     self.assertEqual(rank, h.VAL_STRAIGHT_FLUSH)
 
