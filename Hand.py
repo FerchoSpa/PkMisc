@@ -38,8 +38,14 @@ class Hand:
 
     return self.suitCountOrdered
 
-  def __isRoyalFlush(self):
-    return False
+  def __isRoyalFlush(self, suit):
+    # The hand has no repeats, so count how many are in T, J, Q, K, A range for suit
+    cardsInRoyalFlush = 0;
+    for card in self.sortedCards:
+      if card.suit() == suit:
+        if card.symbolicRank() in [card.ACE, card.TEN, card.JACK, card.QUEEN, card.KING]:
+          cardsInRoyalFlush += 1
+    return cardsInRoyalFlush == 5
 
   def evaluate(self):
     if len(self.cards) != 7:
@@ -54,8 +60,8 @@ class Hand:
 
     # Only bother with RoyalFlush and Straight Flush if possible
     if count >= 5:
-      if self.__isRoyalFlush():
-        return self.VAL_FLUSH, self.suitCountOrdered
+      if self.__isRoyalFlush(suit):
+        return self.VAL_ROYAL_FLUSH, self.suitCountOrdered
 
     return self.VAL_FLUSH, self.suitCountOrdered
 

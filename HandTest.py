@@ -36,6 +36,10 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
     print "fer:", hv
     self.assertEqual(len(hv), 4)
+    suit, count = hv[0]
+    self.assertEqual(suit, c.DIAMONDS)
+    self.assertEqual(count, 5)
+    self.assertEqual(rank, h.VAL_ROYAL_FLUSH)
 
 
 
