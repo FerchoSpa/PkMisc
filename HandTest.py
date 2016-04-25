@@ -48,20 +48,24 @@ class TestHandMethods(unittest.TestCase):
     self.assertEqual(count, 5)
     self.assertEqual(rank, h.VAL_ROYAL_FLUSH)
 
-  def testAllHeart(self):
+  def testStraightFlushHeart(self):
     h = Hand.Hand()
 
-    c = Card.Card(1); h.accept(c)
     c = Card.Card(2); h.accept(c)
-    c = Card.Card(3); h.accept(c)
-    c = Card.Card(4); h.accept(c)
+    c = Card.Card(15); h.accept(c)
     c = Card.Card(5); h.accept(c)
-    c = Card.Card(6); h.accept(c)
-    c = Card.Card(7); h.accept(c)
+    c = Card.Card(4); h.accept(c)
+    c = Card.Card(1); h.accept(c)
+    c = Card.Card(32); h.accept(c)
+    c = Card.Card(3); h.accept(c)
 
     rank, hv = h.evaluate()
     print "rank:", rank, ", hv:", hv
     self.assertEqual(len(hv), 4)
+    suit, count = hv[0]
+    self.assertEqual(suit, 0)
+    self.assertEqual(count, 5)
+    self.assertEqual(rank, h.VAL_STRAIGHT_FLUSH)
 
 if __name__ == '__main__':
   unittest.main()

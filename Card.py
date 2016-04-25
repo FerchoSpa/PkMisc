@@ -44,8 +44,8 @@ class Card:
   numericRankToSymbolicRank = [None, ACE, DEUCE, THREE, FOUR, FIVE, SIX, SEVEN, \
                               EIGHT, NINE, TEN, JACK, QUEEN, KING]                       
 
-  def __init__(self, nvalue):
-    self.numericValue = nvalue
+  def __init__(self, numericValue):
+    self.numericValue = numericValue
 
   def suit(self):
     return self.nvalToSuit[self.numericValue]
