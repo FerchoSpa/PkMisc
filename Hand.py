@@ -38,7 +38,21 @@ class Hand:
 
     return self.suitCountOrdered
 
-  def __isStraightFromThisCard(self, idx):
+  # It doesn't consider Royal Flush (as it was evaluated already)
+  def __isStraightFlushFromThisCard(self, idx, suit, lCards):
+    previousCard = lCards[0].numericRank()
+    count = 1
+    for card in lCards[1:]:
+      print card
+      if card.suit() != suit:
+        return False
+      if card.numericRank() == previousCard+1:
+        count += 1
+        if count==5:
+          return True
+      else:
+        count = 1
+      previousCard = card.numericRank()
     return False
 
   def __islStraightFlush(self, suit):
@@ -46,7 +60,7 @@ class Hand:
     cardsInRoyalFlush = 0;
     for idx, card in enumerate(self.sortedCards):
       if card.suit() == suit:
-        return self.__isStraightFromThisCard(idx)
+        return self.__isStraightFlushFromThisCard(idx, suit, self.sortedCards)
     return False
 
   def __isRoyalFlush(self, suit):
@@ -74,7 +88,7 @@ class Hand:
       if self.__isRoyalFlush(suit):
         return self.VAL_ROYAL_FLUSH, self.suitCountOrdered
       elif self.__islStraightFlush(suit):
-       return self.VAL_ROYAL_FLUSH, self.suitCountOrdered
+       return self.VAL_STRAIGHT_FLUSH, self.suitCountOrdered
  
     return self.VAL_FLUSH, self.suitCountOrdered
 
