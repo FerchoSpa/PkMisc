@@ -5,9 +5,17 @@ import Card
 class Hand:
   """ A Hand of Poker cards """
 
-  VAL_NONE = -1
-  VAL_ROYAL_FLUSH = 0
-  VAL_FLUSH = 4
+  VAL_NONE            = -1
+  VAL_ROYAL_FLUSH     = 0
+  VAL_STRAIGHT_FLUSH  = 1
+  VAL_FOUR_OF_A_KIND  = 2
+  VAL_FULL_HOUSE      = 3
+  VAL_FLUSH           = 4
+  VAL_STRAIGHT        = 5
+  VAL_THREE_OF_A_KIND = 6
+  VAL_TWO_PAIR        = 7
+  VAL_PAIR            = 8
+  VAL_HIGH_CARD       = 9
 
   def __init__(self):
     self.cards = []
@@ -30,6 +38,8 @@ class Hand:
 
     return self.suitCountOrdered
 
+def __isRoyalFlush(self):
+  return False
 
   def evaluate(self):
     if len(self.cards) != 7:
@@ -39,6 +49,12 @@ class Hand:
 
     suit, count = self.suitCountOrdered[0]
     print suit, count
+
+    # Only bother with RoyalFlush and Straight Flush if possible
+    if count >= 5:
+      if __isRoyalFlush():
+        return self.VAL_FLUSH, self.suitCountOrdered
+
     return self.VAL_FLUSH, self.suitCountOrdered
 
 if __name__ == '__main__':
