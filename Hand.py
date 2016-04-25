@@ -38,6 +38,17 @@ class Hand:
 
     return self.suitCountOrdered
 
+  def __isStraightFromThisCard(self, idx):
+    return False
+
+  def __islStraightFlush(self, suit):
+    # The hand has no repeats, its not a royal flush, and has at least 5 of same suit
+    cardsInRoyalFlush = 0;
+    for idx, card in enumerate(self.sortedCards):
+      if card.suit() == suit:
+        return self.__isStraightFromThisCard(idx)
+    return False
+
   def __isRoyalFlush(self, suit):
     # The hand has no repeats, so count how many are in T, J, Q, K, A range for suit
     cardsInRoyalFlush = 0;
@@ -62,7 +73,9 @@ class Hand:
     if count >= 5:
       if self.__isRoyalFlush(suit):
         return self.VAL_ROYAL_FLUSH, self.suitCountOrdered
-
+      elif self.__islStraightFlush(suit):
+       return self.VAL_ROYAL_FLUSH, self.suitCountOrdered
+ 
     return self.VAL_FLUSH, self.suitCountOrdered
 
 if __name__ == '__main__':
