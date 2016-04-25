@@ -9,6 +9,7 @@ class Card:
   CLUBS    = 3
 
   suits = [HEARTS, DIAMONDS, SPADES, CLUBS]
+  strSuits = ['H', 'D', 'S', 'C']
 
   ACE   = 'A'
   ONE   = '1'
@@ -58,6 +59,9 @@ class Card:
 
   def numericRankToStringRank(self, n):
     return self.numericRankToSymbolicRank[n]
+
+  def __repr__(self):
+    return str(self.numericRank())+self.strSuits[self.suit()]
 
 if __name__ == '__main__':
   c = Card(14)

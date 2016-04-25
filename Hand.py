@@ -38,8 +38,8 @@ class Hand:
 
     return self.suitCountOrdered
 
-def __isRoyalFlush(self):
-  return False
+  def __isRoyalFlush(self):
+    return False
 
   def evaluate(self):
     if len(self.cards) != 7:
@@ -47,12 +47,14 @@ def __isRoyalFlush(self):
     self.__sortCards()
     self.__suitCount()
 
+    print self.sortedCards
+
     suit, count = self.suitCountOrdered[0]
     print suit, count
 
     # Only bother with RoyalFlush and Straight Flush if possible
     if count >= 5:
-      if __isRoyalFlush():
+      if self.__isRoyalFlush():
         return self.VAL_FLUSH, self.suitCountOrdered
 
     return self.VAL_FLUSH, self.suitCountOrdered

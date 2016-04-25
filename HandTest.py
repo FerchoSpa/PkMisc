@@ -22,6 +22,20 @@ class TestHandMethods(unittest.TestCase):
     print "fer:", hv
     self.assertEqual(len(hv), 4)
 
+  def testRoyalFlushFlop(self):
+    h = Hand.Hand()
+
+    c = Card.Card(13); h.accept(c)
+    c = Card.Card(22); h.accept(c)
+    c = Card.Card(23); h.accept(c)
+    c = Card.Card(24); h.accept(c)
+    c = Card.Card(25); h.accept(c)
+    c = Card.Card(6); h.accept(c)
+    c = Card.Card(7); h.accept(c)
+
+    rank, hv = h.evaluate()
+    print "fer:", hv
+    self.assertEqual(len(hv), 4)
 
 
 
