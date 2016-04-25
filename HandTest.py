@@ -34,13 +34,33 @@ class TestHandMethods(unittest.TestCase):
     c = Card.Card(7); h.accept(c)
 
     rank, hv = h.evaluate()
-    print "fer:", hv
+
     self.assertEqual(len(hv), 4)
     suit, count = hv[0]
     self.assertEqual(suit, c.DIAMONDS)
     self.assertEqual(count, 5)
     self.assertEqual(rank, h.VAL_ROYAL_FLUSH)
 
+
+  def testRoyalFlushRiver(self):
+    h = Hand.Hand()
+
+    d = 2
+    c = Card.Card(13*d+11); h.accept(c)
+    c = Card.Card(13*d+0); h.accept(c)
+    c = Card.Card(13*d+12); h.accept(c)
+    c = Card.Card(6); h.accept(c)
+    c = Card.Card(7); h.accept(c)
+    c = Card.Card(13*d+10); h.accept(c)
+    c = Card.Card(13*d+9); h.accept(c)
+
+    rank, hv = h.evaluate()
+    print "fer:", hv
+    self.assertEqual(len(hv), 4)
+    suit, count = hv[0]
+    self.assertEqual(suit, d)
+    self.assertEqual(count, 5)
+    self.assertEqual(rank, h.VAL_ROYAL_FLUSH)
 
 
 if __name__ == '__main__':
