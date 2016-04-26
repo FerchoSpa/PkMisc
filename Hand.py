@@ -48,6 +48,11 @@ class Hand:
     self.faceCountOrdered = [(k, self.faceCountDict[k]) for k in sortedKeys]
     return self.faceCountOrdered
 
+  def __isFullHouse(self):
+    v3, count3 = self.faceCountOrdered[0]
+    v2, count2 = self.faceCountOrdered[1]
+    return count3 == 3 and count2 >= 2
+
   def __isFourOfKind(self):
     v, count = self.faceCountOrdered[0]
     return count == 4
@@ -104,6 +109,9 @@ class Hand:
 
     if self.__isFourOfKind():
       return self.VAL_FOUR_OF_A_KIND, self.faceCountOrdered
+
+    if self.__isFullHouse():
+      return self.VAL_FULL_HOUSE, self.faceCountOrdered
 
     return self.VAL_FLUSH, self.suitCountOrdered
 
