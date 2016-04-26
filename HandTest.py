@@ -180,6 +180,24 @@ class TestHandMethods(unittest.TestCase):
 
     face, count = hv[0]
     self.assertEqual(rank, h.VAL_FULL_HOUSE)
+
+  def testFlushFlop(self):
+    h = Hand.Hand()
+
+    d = 0
+
+    c = Card.Card(13*d+3); h.accept(c)
+    c = Card.Card(13*d+7); h.accept(c)
+    c = Card.Card(13*d+2); h.accept(c)
+    c = Card.Card(13*d+9); h.accept(c)
+    c = Card.Card(13*d+4); h.accept(c)
+    c = Card.Card(22); h.accept(c)
+    c = Card.Card(17); h.accept(c)
+
+    rank, hv = h.evaluate()
+
+    face, count = hv[0]
+    self.assertEqual(rank, h.VAL_FLUSH)
     
 if __name__ == '__main__':
   unittest.main()

@@ -113,7 +113,10 @@ class Hand:
     if self.__isFullHouse():
       return self.VAL_FULL_HOUSE, self.faceCountOrdered
 
-    return self.VAL_FLUSH, self.suitCountOrdered
+    if count >= 5:
+      return self.VAL_FLUSH, self.suitCountOrdered
+
+    return self.VAL_HIGH_CARD, self.suitCountOrdered
 
 if __name__ == '__main__':
   h = Hand()
