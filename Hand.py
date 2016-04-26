@@ -42,7 +42,6 @@ class Hand:
   def __faceCardCount(self):
     self.faceCountDict = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0}
     for card in self.cards:
-      print card, card.numericRank()
       self.faceCountDict[card.numericRank()] += 1
     # Sort the face values in descending order of counts(the most counts first)
     sortedKeys = sorted(self.faceCountDict, key=self.faceCountDict.__getitem__, reverse=True)
@@ -51,7 +50,6 @@ class Hand:
 
   def __isFourOfKind(self):
     v, count = self.faceCountOrdered[0]
-    print v, count
     return count == 4
 
   # It doesn't consider Royal Flush (as it was evaluated already)
