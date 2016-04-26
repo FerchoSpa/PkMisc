@@ -161,6 +161,26 @@ class TestHandMethods(unittest.TestCase):
 
     face, count = hv[0]
     self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
+
+  def testFullHouseFlop(self):
+    h = Hand.Hand()
+
+    d = 0
+    e = 1
+
+    c = Card.Card(13*1+d); h.accept(c)
+    c = Card.Card(13*3+d); h.accept(c)
+    c = Card.Card(13*0+d); h.accept(c)
+    c = Card.Card(13*1+e); h.accept(c)
+    c = Card.Card(22); h.accept(c)
+    c = Card.Card(13*2+e); h.accept(c)
+    c = Card.Card(17); h.accept(c)
+
+    rank, hv = h.evaluate()
+
+    face, count = hv[0]
+    self.assertEqual(rank, h.VAL_FULL_HOUSE)
+    
 if __name__ == '__main__':
   unittest.main()
 
