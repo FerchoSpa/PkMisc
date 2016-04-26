@@ -38,6 +38,22 @@ class Hand:
 
     return self.suitCountOrdered
 
+  # Returns a list of tuples(Card.numericRank, n)
+  def __faceCardCount(self):
+    self.faceCountDict = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0}
+    for card in self.cards:
+      print card, card.numericRank()
+      self.faceCountDict[card.numericRank()] += 1
+    # Sort the face values in descending order of counts(the most counts first)
+    sortedKeys = sorted(self.faceCountDict, key=self.faceCountDict.__getitem__, reverse=True)
+    self.faceCountOrdered = [(k, self.faceCountDict[k]) for k in sortedKeys]
+    return self.faceCountOrdered
+
+  def __isFourOfKind(self):
+    v, count = self.faceCountOrdered[0]
+    print v, count
+    return count == 4
+
   # It doesn't consider Royal Flush (as it was evaluated already)
   def __isStraightFlushFromThisCard(self, suit, lCards):
     previousCard = lCards[0].numericRank()
@@ -86,17 +102,22 @@ class Hand:
       elif self.__islStraightFlush(suit):
        return self.VAL_STRAIGHT_FLUSH, self.suitCountOrdered
  
+    self.__faceCardCount()
+
+    if self.__isFourOfKind():
+      return self.VAL_FOUR_OF_A_KIND, self.faceCountOrdered
+
     return self.VAL_FLUSH, self.suitCountOrdered
 
 if __name__ == '__main__':
   h = Hand()
 
   c = Card.Card(1); h.accept(c)
-  c = Card.Card(2); h.accept(c)
-  c = Card.Card(3); h.accept(c)
-  c = Card.Card(4); h.accept(c)
+  c = Card.Card(13); h.accept(c)
+  c = Card.Card(26); h.accept(c)
+  c = Card.Card(39); h.accept(c)
   c = Card.Card(5); h.accept(c)
-  c = Card.Card(6); h.accept(c)
+  c = Card.Card(18); h.accept(c)
   c = Card.Card(7); h.accept(c)
 
   h.evaluate()
