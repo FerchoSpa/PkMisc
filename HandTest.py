@@ -117,8 +117,8 @@ class TestHandMethods(unittest.TestCase):
     c = Card.Card(13*3+d); h.accept(c)
     c = Card.Card(51); h.accept(c)
     c = Card.Card(13*0+d); h.accept(c)
-    c = Card.Card(13*2+d); h.accept(c)
     c = Card.Card(17); h.accept(c)
+    c = Card.Card(13*2+d); h.accept(c)
     c = Card.Card(22); h.accept(c)
 
     rank, hv = h.evaluate()
@@ -126,6 +126,41 @@ class TestHandMethods(unittest.TestCase):
     face, count = hv[0]
     self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
 
+  def testFourOfKindRiver(self):
+    h = Hand.Hand()
+
+    d = 0
+
+    c = Card.Card(13*1+d); h.accept(c)
+    c = Card.Card(13*3+d); h.accept(c)
+    c = Card.Card(51); h.accept(c)
+    c = Card.Card(13*0+d); h.accept(c)
+    c = Card.Card(17); h.accept(c)
+    c = Card.Card(22); h.accept(c)
+    c = Card.Card(13*2+d); h.accept(c)
+
+    rank, hv = h.evaluate()
+
+    face, count = hv[0]
+    self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
+
+  def testFourOfKindBoard(self):
+    h = Hand.Hand()
+
+    d = 0
+
+    c = Card.Card(51); h.accept(c)
+    c = Card.Card(17); h.accept(c)
+    c = Card.Card(13*1+d); h.accept(c)
+    c = Card.Card(13*3+d); h.accept(c)
+    c = Card.Card(13*0+d); h.accept(c)
+    c = Card.Card(22); h.accept(c)
+    c = Card.Card(13*2+d); h.accept(c)
+
+    rank, hv = h.evaluate()
+
+    face, count = hv[0]
+    self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
 if __name__ == '__main__':
   unittest.main()
 
