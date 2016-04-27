@@ -198,6 +198,24 @@ class TestHandMethods(unittest.TestCase):
 
     face, count = hv[0]
     self.assertEqual(rank, h.VAL_FLUSH)
+
+  def testStraightFlop(self):
+    h = Hand.Hand()
+
+    d = 0
+
+    c = Card.Card(13*1+3); h.accept(c)
+    c = Card.Card(13*3+1); h.accept(c)
+    c = Card.Card(13*0+2); h.accept(c)
+    c = Card.Card(13*2+5); h.accept(c)
+    c = Card.Card(13*1+4); h.accept(c)
+    c = Card.Card(22); h.accept(c)
+    c = Card.Card(18); h.accept(c)
+
+    rank, hv = h.evaluate()
+
+    face, count = hv[0]
+    self.assertEqual(rank, h.VAL_STRAIGHT)
     
 if __name__ == '__main__':
   unittest.main()

@@ -48,6 +48,32 @@ class Hand:
     self.faceCountOrdered = [(k, self.faceCountDict[k]) for k in sortedKeys]
     return self.faceCountOrdered
 
+  def __findLongestStraight(self, values):
+    prev = values[0]
+    n = 1
+    nMax = n
+    for v in values:
+      if v == prev+1:
+        n += 1
+        if n>nMax:
+          nMax = n
+      else:
+        n = 1
+      prev = v
+    return nMax
+
+  def __isStraight(self):
+    unrepeatedCards = []
+    for card in self.cards:
+      if card.numericRank() not in unrepeatedCards:
+        unrepeatedCards.append(card.numericRank())
+        if card.numericRank() == 1:
+          # Add King + 1, so it can detect 10,J,Q,K,A
+          unrepeatedCards.append(14)
+    unrepeatedCards.sort()
+    longestStraight = self.__findLongestStraight(unrepeatedCards)
+    return longestStraight >= 5
+
   def __isFullHouse(self):
     v3, count3 = self.faceCountOrdered[0]
     v2, count2 = self.faceCountOrdered[1]
@@ -116,18 +142,21 @@ class Hand:
     if count >= 5:
       return self.VAL_FLUSH, self.suitCountOrdered
 
+    if self.__isStraight():
+      return self.VAL_STRAIGHT, self.faceCountOrdered
+
     return self.VAL_HIGH_CARD, self.suitCountOrdered
 
 if __name__ == '__main__':
   h = Hand()
 
   c = Card.Card(1); h.accept(c)
-  c = Card.Card(13); h.accept(c)
-  c = Card.Card(26); h.accept(c)
-  c = Card.Card(39); h.accept(c)
+  c = Card.Card(13+2); h.accept(c)
+  c = Card.Card(3); h.accept(c)
+  c = Card.Card(13+3); h.accept(c)
   c = Card.Card(5); h.accept(c)
-  c = Card.Card(18); h.accept(c)
-  c = Card.Card(7); h.accept(c)
+  c = Card.Card(4); h.accept(c)
+  c = Card.Card(13*1+4); h.accept(c)
 
   h.evaluate()
 
