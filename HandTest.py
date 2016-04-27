@@ -202,20 +202,51 @@ class TestHandMethods(unittest.TestCase):
   def testStraightFlop(self):
     h = Hand.Hand()
 
-    d = 0
-
     c = Card.Card(13*1+3); h.accept(c)
     c = Card.Card(13*3+1); h.accept(c)
     c = Card.Card(13*0+2); h.accept(c)
     c = Card.Card(13*2+5); h.accept(c)
     c = Card.Card(13*1+4); h.accept(c)
-    c = Card.Card(22); h.accept(c)
-    c = Card.Card(18); h.accept(c)
+    c = Card.Card(22);     h.accept(c)
+    c = Card.Card(18);     h.accept(c)
 
     rank, hv = h.evaluate()
 
     face, count = hv[0]
     self.assertEqual(rank, h.VAL_STRAIGHT)
+
+  def testThreeOfKindFlop(self):
+    h = Hand.Hand()
+
+    c = Card.Card(13*1+3); h.accept(c)
+    c = Card.Card(13*3+3); h.accept(c)
+    c = Card.Card(33);     h.accept(c)
+    c = Card.Card(13*2+3); h.accept(c)
+    c = Card.Card(13*1+1); h.accept(c)
+    c = Card.Card(22);     h.accept(c)
+    c = Card.Card(18);     h.accept(c)
+
+    rank, hv = h.evaluate()
+
+    face, count = hv[0]
+    self.assertEqual(rank, h.VAL_THREE_OF_A_KIND)
+    
+
+  def testTwoPairsFlop(self):
+    h = Hand.Hand()
+
+    c = Card.Card(13*1+3); h.accept(c)
+    c = Card.Card(13*3+1); h.accept(c)
+    c = Card.Card(13*0+3); h.accept(c)
+    c = Card.Card(13*2+5); h.accept(c)
+    c = Card.Card(13*1+1); h.accept(c)
+    c = Card.Card(22);     h.accept(c)
+    c = Card.Card(18);     h.accept(c)
+
+    rank, hv = h.evaluate()
+
+    face, count = hv[0]
+    self.assertEqual(rank, h.VAL_TWO_PAIR)
     
 if __name__ == '__main__':
   unittest.main()

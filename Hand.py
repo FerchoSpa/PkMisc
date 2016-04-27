@@ -48,6 +48,15 @@ class Hand:
     self.faceCountOrdered = [(k, self.faceCountDict[k]) for k in sortedKeys]
     return self.faceCountOrdered
 
+  def __isTwoPairs(self):
+    vPair1, countPair1 = self.faceCountOrdered[0]
+    vPair2, countPair2 = self.faceCountOrdered[1]
+    return countPair1 == 2 and countPair2 == 2
+
+  def __isThreeOfKind(self):
+    v, count = self.faceCountOrdered[0]
+    return count == 3
+
   def __findLongestStraight(self, values):
     prev = values[0]
     n = 1
@@ -144,6 +153,12 @@ class Hand:
 
     if self.__isStraight():
       return self.VAL_STRAIGHT, self.faceCountOrdered
+
+    if self.__isThreeOfKind():
+      return self.VAL_THREE_OF_A_KIND, self.faceCountOrdered
+
+    if self.__isTwoPairs():
+      return self.VAL_TWO_PAIR, self.faceCountOrdered
 
     return self.VAL_HIGH_CARD, self.suitCountOrdered
 
