@@ -23,6 +23,9 @@ class Hand:
   def accept(self, card):
     self.cards.append(card)
 
+  def __repr__(self):
+    return str(self.cards)
+
   def __sortCards(self):
     self.sortedCards = sorted(self.cards, key=lambda card: card.numericValue)
 
@@ -47,6 +50,10 @@ class Hand:
     sortedKeys = sorted(self.faceCountDict, key=self.faceCountDict.__getitem__, reverse=True)
     self.faceCountOrdered = [(k, self.faceCountDict[k]) for k in sortedKeys]
     return self.faceCountOrdered
+
+  def __isPair(self):
+    vPair1, countPair1 = self.faceCountOrdered[0]
+    return countPair1 == 2
 
   def __isTwoPairs(self):
     vPair1, countPair1 = self.faceCountOrdered[0]
@@ -159,6 +166,9 @@ class Hand:
 
     if self.__isTwoPairs():
       return self.VAL_TWO_PAIR, self.faceCountOrdered
+
+    if self.__isPair():
+      return self.VAL_PAIR, self.faceCountOrdered
 
     return self.VAL_HIGH_CARD, self.suitCountOrdered
 
