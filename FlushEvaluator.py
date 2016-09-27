@@ -58,4 +58,8 @@ if __name__ == '__main__':
   print "Full House    :", counters[Hand.Hand().VAL_FULL_HOUSE],  " : ", (100.0*counters[Hand.Hand().VAL_FULL_HOUSE])/count
   print "Flush         :", counters[Hand.Hand().VAL_FLUSH],  " : ", (100.0*counters[Hand.Hand().VAL_FLUSH])/count
   print "Straight      :", counters[Hand.Hand().VAL_STRAIGHT],  " : ", (100.0*counters[Hand.Hand().VAL_STRAIGHT])/count
+  print "3 of a kind   :", counters[Hand.Hand().VAL_THREE_OF_A_KIND],  " : ", (100.0*counters[Hand.Hand().VAL_THREE_OF_A_KIND])/count
+  print "Two pairs     :", counters[Hand.Hand().VAL_TWO_PAIR],  " : ", (100.0*counters[Hand.Hand().VAL_TWO_PAIR])/count
+  print "Pair          :", counters[Hand.Hand().VAL_PAIR],  " : ", (100.0*counters[Hand.Hand().VAL_PAIR])/count
+  print "High Card     :", counters[Hand.Hand().VAL_HIGH_CARD],  " : ", (100.0*counters[Hand.Hand().VAL_HIGH_CARD])/count
 
