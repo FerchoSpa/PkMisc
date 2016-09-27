@@ -5,12 +5,21 @@ import Hand
 
 if __name__ == '__main__':
 
-  fl = 0
-  fh = 0
-  sfl = 0
-  rfl= 0
-  fok= 0
   st= 0
+
+  counters = {}
+  counters[Hand.Hand().VAL_NONE] = 0
+  counters[Hand.Hand().VAL_ROYAL_FLUSH] = 0
+  counters[Hand.Hand().VAL_STRAIGHT_FLUSH] = 0
+  counters[Hand.Hand().VAL_FOUR_OF_A_KIND] = 0
+  counters[Hand.Hand().VAL_FULL_HOUSE] = 0
+  counters[Hand.Hand().VAL_FLUSH] = 0
+  counters[Hand.Hand().VAL_STRAIGHT] = 0
+  counters[Hand.Hand().VAL_THREE_OF_A_KIND] = 0
+  counters[Hand.Hand().VAL_TWO_PAIR] = 0
+  counters[Hand.Hand().VAL_PAIR] = 0
+  counters[Hand.Hand().VAL_HIGH_CARD] = 0
+
   nc = 52
   count = 0
   c1 = 0
@@ -41,25 +50,12 @@ if __name__ == '__main__':
 
             a, b = h.evaluate()
             #print a, b
-            if a == Hand.Hand().VAL_FLUSH:
-              fl += 1
-            if a == Hand.Hand().VAL_ROYAL_FLUSH:
-              rfl += 1
-            if a == Hand.Hand().VAL_STRAIGHT_FLUSH:
-              sfl += 1
-            if a == Hand.Hand().VAL_FOUR_OF_A_KIND:
-              fok += 1
-            if a == Hand.Hand().VAL_FULL_HOUSE:
-              fh += 1
-            if a == Hand.Hand().VAL_STRAIGHT:
-              st += 1
+            counters[a] += 1
   print "Unique hands  :", count
-  print "Royal Flush   :", rfl, " : ", (100.0*rfl)/count
-  print "Straight Flush:", sfl, " : ", (100.0*sfl)/count
-  print "4 of a Kind   :", fok, " : ", (100.0*fok)/count
-  print "Full House    :", fh,  " : ", (100.0*fh)/count
-  print "Flush         :", fl,  " : ", (100.0*fl)/count
-  print "Straight      :", st,  " : ", (100.0*st)/count
-
-  print rfl+sfl+fl+fok
+  print "Royal Flush   :", counters[Hand.Hand().VAL_ROYAL_FLUSH], " : ", (100.0*counters[Hand.Hand().VAL_ROYAL_FLUSH])/count
+  print "Straight Flush:", counters[Hand.Hand().VAL_STRAIGHT_FLUSH], " : ", (100.0*counters[Hand.Hand().VAL_STRAIGHT_FLUSH])/count
+  print "4 of a Kind   :", counters[Hand.Hand().VAL_FOUR_OF_A_KIND], " : ", (100.0*counters[Hand.Hand().VAL_FOUR_OF_A_KIND])/count
+  print "Full House    :", counters[Hand.Hand().VAL_FULL_HOUSE],  " : ", (100.0*counters[Hand.Hand().VAL_FULL_HOUSE])/count
+  print "Flush         :", counters[Hand.Hand().VAL_FLUSH],  " : ", (100.0*counters[Hand.Hand().VAL_FLUSH])/count
+  print "Straight      :", counters[Hand.Hand().VAL_STRAIGHT],  " : ", (100.0*counters[Hand.Hand().VAL_STRAIGHT])/count
 
