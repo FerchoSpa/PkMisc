@@ -23,6 +23,9 @@ class Hand:
   def accept(self, card):
     self.cards.append(card)
 
+  def removeLast(self):
+    self.cards = self.cards[:-1]
+
   def __repr__(self):
     return str(self.cards)
 

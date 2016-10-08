@@ -36,30 +36,34 @@ class HandEvaluator:
     for i in range(0, nc):
       if i == c1 or i == c2: continue
       print i
+      h = Hand.Hand()
+      c = cards[c1]; h.accept(c)
+      c = cards[c2]; h.accept(c)
+      c = cards[i];  h.accept(c)
       for j in range(i+1, nc):
         if j == c1 or j == c2: continue
+        c = cards[j];  h.accept(c)
         for k in range(j+1, nc):
           if k == c1 or k == c2: continue
+          c = cards[k];  h.accept(c)
           for l in range(k+1, nc):
             if l == c1 or l == c2: continue
+            c = cards[l];  h.accept(c)
             for m in range(l+1, nc):
               if m == c1 or m == c2: continue
               #print i, j, k, l, m, " : ",
               count += 1
   
-              h = Hand.Hand()
-  
-              c = cards[c1]; h.accept(c) #Card.Card(c1); h.accept(c)
-              c = cards[c2]; h.accept(c) #Card.Card(c2); h.accept(c)
-              c = cards[i];  h.accept(c) #Card.Card(i); h.accept(c)
-              c = cards[j];  h.accept(c) #Card.Card(j); h.accept(c)
-              c = cards[k];  h.accept(c) #Card.Card(k); h.accept(c)
-              c = cards[l];  h.accept(c) #Card.Card(l); h.accept(c)
-              c = cards[m];  h.accept(c) #Card.Card(m); h.accept(c)
+              c = cards[m];  h.accept(c)
   
               a, b = h.evaluate()
               #print a, b
               counters[a] += 1
+
+              h.removeLast()
+            h.removeLast()
+          h.removeLast()
+        h.removeLast()
     return counters, count
 
 if __name__ == '__main__':
