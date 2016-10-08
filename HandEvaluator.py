@@ -33,12 +33,12 @@ class HandEvaluator:
     for i in range(0, nc):
       cards[i] = Card.Card(i)
 
+    h = Hand.Hand()
+    c = cards[c1]; h.accept(c)
+    c = cards[c2]; h.accept(c)
     for i in range(0, nc):
       if i == c1 or i == c2: continue
       print i
-      h = Hand.Hand()
-      c = cards[c1]; h.accept(c)
-      c = cards[c2]; h.accept(c)
       c = cards[i];  h.accept(c)
       for j in range(i+1, nc):
         if j == c1 or j == c2: continue
@@ -64,6 +64,7 @@ class HandEvaluator:
             h.removeLast()
           h.removeLast()
         h.removeLast()
+      h.removeLast()
     return counters, count
 
 if __name__ == '__main__':

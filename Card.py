@@ -54,7 +54,7 @@ class Card:
     return self.numericRankToSymbolicRank[n]
 
   def __repr__(self):
-    return str(self.numericRank())+self.strSuits[self.suit()]
+    return str(self.numericRank)+self.strSuits[self.suit]
 
 if __name__ == '__main__':
   c = Card(14)
