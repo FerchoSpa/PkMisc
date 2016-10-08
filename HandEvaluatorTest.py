@@ -3,282 +3,40 @@
 import unittest
 
 import Hand
-import Card
+import HandEvaluator
+
+class TestHandEvaluatorMethods(unittest.TestCase):
+
+  def testHandOnePlayerAgainstDeck(self):
+    he = HandEvaluator.HandEvaluator()
+    c, count = he.evaluateSingleHand(0, 1)
+
+    self.assertEqual(count, 2118760)
+    self.assertEqual(c[Hand.Hand().VAL_ROYAL_FLUSH], 49)
+    self.assertEqual(c[Hand.Hand().VAL_STRAIGHT_FLUSH], 1113)
+    self.assertEqual(c[Hand.Hand().VAL_FOUR_OF_A_KIND], 2668)
+    self.assertEqual(c[Hand.Hand().VAL_FULL_HOUSE], 47124)
+    self.assertEqual(c[Hand.Hand().VAL_FLUSH], 138296)
+    self.assertEqual(c[Hand.Hand().VAL_STRAIGHT], 65508)
+    self.assertEqual(c[Hand.Hand().VAL_THREE_OF_A_KIND], 92004)
+    self.assertEqual(c[Hand.Hand().VAL_TWO_PAIR], 469092)
+    self.assertEqual(c[Hand.Hand().VAL_PAIR], 916776)
+    self.assertEqual(c[Hand.Hand().VAL_HIGH_CARD], 386130)
+
+    """
+Unique hands  : 2118760
+Royal Flush   : 49  :  0.00231267345051
+Straight Flush: 1113  :  0.0525307255187
+4 of a Kind   : 2668  :  0.125922709509
+Full House    : 47124  :  2.22413109555
+Flush         : 138296  :  6.52721403085
+Straight      : 65508  :  3.09180841624
+3 of a kind   : 92004  :  4.34235118654
+Two pairs     : 469092  :  22.139930903
+Pair          : 916776  :  43.2694594952
+High Card     : 386130  :  18.2243387642
+    """
 
-class TestHandMethods(unittest.TestCase):
-
-
-  def testRoyalFlushFlop(self):
-    h = Hand.Hand()
-
-    c = Card.Card(13); h.accept(c)
-    c = Card.Card(22); h.accept(c)
-    c = Card.Card(23); h.accept(c)
-    c = Card.Card(24); h.accept(c)
-    c = Card.Card(25); h.accept(c)
-    c = Card.Card(6); h.accept(c)
-    c = Card.Card(7); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    self.assertEqual(len(hv), 4)
-    suit, count = hv[0]
-    self.assertEqual(suit, c.DIAMONDS)
-    self.assertEqual(count, 5)
-    self.assertEqual(rank, h.VAL_ROYAL_FLUSH)
-
-
-  def testRoyalFlushRiver(self):
-    h = Hand.Hand()
-
-    d = 2
-    c = Card.Card(13*d+11); h.accept(c)
-    c = Card.Card(13*d+0); h.accept(c)
-    c = Card.Card(6); h.accept(c)
-    c = Card.Card(13*d+12); h.accept(c)
-    c = Card.Card(7); h.accept(c)
-    c = Card.Card(13*d+10); h.accept(c)
-    c = Card.Card(13*d+9); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    self.assertEqual(len(hv), 4)
-    suit, count = hv[0]
-    self.assertEqual(suit, d)
-    self.assertEqual(count, 5)
-    self.assertEqual(rank, h.VAL_ROYAL_FLUSH)
-
-  def testStraightFlushHeart(self):
-    h = Hand.Hand()
-
-    d = 0
-
-    c = Card.Card(13*d+2); h.accept(c)
-    c = Card.Card(15); h.accept(c)
-    c = Card.Card(13*d+5); h.accept(c)
-    c = Card.Card(13*d+4); h.accept(c)
-    c = Card.Card(13*d+1); h.accept(c)
-    c = Card.Card(32); h.accept(c)
-    c = Card.Card(13*d+3); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    self.assertEqual(len(hv), 4)
-    suit, count = hv[0]
-    self.assertEqual(suit, d)
-    self.assertEqual(count, 5)
-    self.assertEqual(rank, h.VAL_STRAIGHT_FLUSH)
-
-  def testStraightFlushSpades(self):
-    h = Hand.Hand()
-
-    d = 3
-
-    c = Card.Card(13*d+2); h.accept(c)
-    c = Card.Card(15); h.accept(c)
-    c = Card.Card(13*d+1); h.accept(c)
-    c = Card.Card(13*d+4); h.accept(c)
-    c = Card.Card(22); h.accept(c)
-    c = Card.Card(13*d+0); h.accept(c)
-    c = Card.Card(13*d+3); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    self.assertEqual(len(hv), 4)
-    suit, count = hv[0]
-    self.assertEqual(suit, d)
-    self.assertEqual(count, 5)
-    self.assertEqual(rank, h.VAL_STRAIGHT_FLUSH)
-
-  def testFourOfKindFlop(self):
-    h = Hand.Hand()
-
-    d = 3
-
-    c = Card.Card(13*1+2); h.accept(c)
-    c = Card.Card(13*2+2); h.accept(c)
-    c = Card.Card(13*0+2); h.accept(c)
-    c = Card.Card(51); h.accept(c)
-    c = Card.Card(13*3+2); h.accept(c)
-    c = Card.Card(16); h.accept(c)
-    c = Card.Card(22); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
-
-  def testFourOfKindTurn(self):
-    h = Hand.Hand()
-
-    d = 3
-
-    c = Card.Card(13*1+d); h.accept(c)
-    c = Card.Card(13*3+d); h.accept(c)
-    c = Card.Card(51); h.accept(c)
-    c = Card.Card(13*0+d); h.accept(c)
-    c = Card.Card(17); h.accept(c)
-    c = Card.Card(13*2+d); h.accept(c)
-    c = Card.Card(22); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
-
-  def testFourOfKindRiver(self):
-    h = Hand.Hand()
-
-    d = 0
-
-    c = Card.Card(13*1+d); h.accept(c)
-    c = Card.Card(13*3+d); h.accept(c)
-    c = Card.Card(51); h.accept(c)
-    c = Card.Card(13*0+d); h.accept(c)
-    c = Card.Card(17); h.accept(c)
-    c = Card.Card(22); h.accept(c)
-    c = Card.Card(13*2+d); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
-
-  def testFourOfKindBoard(self):
-    h = Hand.Hand()
-
-    d = 0
-
-    c = Card.Card(51); h.accept(c)
-    c = Card.Card(17); h.accept(c)
-    c = Card.Card(13*1+d); h.accept(c)
-    c = Card.Card(13*3+d); h.accept(c)
-    c = Card.Card(13*0+d); h.accept(c)
-    c = Card.Card(22); h.accept(c)
-    c = Card.Card(13*2+d); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
-
-  def testFullHouseFlop(self):
-    h = Hand.Hand()
-
-    d = 0
-    e = 1
-
-    c = Card.Card(13*1+d); h.accept(c)
-    c = Card.Card(13*3+d); h.accept(c)
-    c = Card.Card(13*0+d); h.accept(c)
-    c = Card.Card(13*1+e); h.accept(c)
-    c = Card.Card(22); h.accept(c)
-    c = Card.Card(13*2+e); h.accept(c)
-    c = Card.Card(17); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FULL_HOUSE)
-
-  def testFlushFlop(self):
-    h = Hand.Hand()
-
-    d = 0
-
-    c = Card.Card(13*d+3); h.accept(c)
-    c = Card.Card(13*d+7); h.accept(c)
-    c = Card.Card(13*d+2); h.accept(c)
-    c = Card.Card(13*d+9); h.accept(c)
-    c = Card.Card(13*d+4); h.accept(c)
-    c = Card.Card(22); h.accept(c)
-    c = Card.Card(17); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FLUSH)
-
-  def testStraightFlop(self):
-    h = Hand.Hand()
-
-    c = Card.Card(13*1+3); h.accept(c)
-    c = Card.Card(13*3+1); h.accept(c)
-    c = Card.Card(13*0+2); h.accept(c)
-    c = Card.Card(13*2+5); h.accept(c)
-    c = Card.Card(13*1+4); h.accept(c)
-    c = Card.Card(22);     h.accept(c)
-    c = Card.Card(18);     h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_STRAIGHT)
-
-  def testThreeOfKindFlop(self):
-    h = Hand.Hand()
-
-    c = Card.Card(13*1+3); h.accept(c)
-    c = Card.Card(13*3+3); h.accept(c)
-    c = Card.Card(33);     h.accept(c)
-    c = Card.Card(13*2+3); h.accept(c)
-    c = Card.Card(13*1+1); h.accept(c)
-    c = Card.Card(22);     h.accept(c)
-    c = Card.Card(18);     h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_THREE_OF_A_KIND)
-    
-
-  def testTwoPairsFlop(self):
-    h = Hand.Hand()
-
-    c = Card.Card(13*1+3); h.accept(c)
-    c = Card.Card(13*3+1); h.accept(c)
-    c = Card.Card(13*0+3); h.accept(c)
-    c = Card.Card(13*2+5); h.accept(c)
-    c = Card.Card(13*1+1); h.accept(c)
-    c = Card.Card(22);     h.accept(c)
-    c = Card.Card(18);     h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_TWO_PAIR)
-
-  def testPocketPair(self):
-    h = Hand.Hand()
-
-    c = Card.Card(13*1+3); h.accept(c)
-    c = Card.Card(13*3+3); h.accept(c)
-    c = Card.Card(13*0+1); h.accept(c)
-    c = Card.Card(13*2+2); h.accept(c)
-    c = Card.Card(13*1+4); h.accept(c)
-    c = Card.Card(22);     h.accept(c)
-    c = Card.Card(19);     h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_PAIR)
-    
-  def testHighCard(self):
-    h = Hand.Hand()
-
-    c = Card.Card(13*1+3);  h.accept(c)
-    c = Card.Card(13*3+7);  h.accept(c)
-    c = Card.Card(13*0+1);  h.accept(c)
-    c = Card.Card(13*2+2);  h.accept(c)
-    c = Card.Card(13*1+4);  h.accept(c)
-    c = Card.Card(13*1+9);  h.accept(c)
-    c = Card.Card(13*1+12); h.accept(c)
-
-    rank, hv = h.evaluate()
-
-    face, count = hv[0]
-    self.assertEqual(rank, h.VAL_HIGH_CARD)
 
 if __name__ == '__main__':
   unittest.main()
