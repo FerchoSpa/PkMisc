@@ -29,6 +29,10 @@ class HandEvaluator:
   
     nc = 52
     count = 0
+    cards = {}
+    for i in range(0, nc):
+      cards[i] = Card.Card(i)
+
     for i in range(0, nc):
       if i == c1 or i == c2: continue
       print i
@@ -45,13 +49,13 @@ class HandEvaluator:
   
               h = Hand.Hand()
   
-              c = Card.Card(c1); h.accept(c)
-              c = Card.Card(c2); h.accept(c)
-              c = Card.Card(i); h.accept(c)
-              c = Card.Card(j); h.accept(c)
-              c = Card.Card(k); h.accept(c)
-              c = Card.Card(l); h.accept(c)
-              c = Card.Card(m); h.accept(c)
+              c = cards[c1]; h.accept(c) #Card.Card(c1); h.accept(c)
+              c = cards[c2]; h.accept(c) #Card.Card(c2); h.accept(c)
+              c = cards[i];  h.accept(c) #Card.Card(i); h.accept(c)
+              c = cards[j];  h.accept(c) #Card.Card(j); h.accept(c)
+              c = cards[k];  h.accept(c) #Card.Card(k); h.accept(c)
+              c = cards[l];  h.accept(c) #Card.Card(l); h.accept(c)
+              c = cards[m];  h.accept(c) #Card.Card(m); h.accept(c)
   
               a, b = h.evaluate()
               #print a, b
