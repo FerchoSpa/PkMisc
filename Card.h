@@ -1,40 +1,32 @@
 #ifndef _CARD_H
 #define _CARD_H
 
+enum Suits {
+	HEARTS = 0, DIAMONDS = 1, SPADES = 2, CLUBS = 3
+};
+
 class Card {
-	enum Suits {
-		HEARTS   = 0,
-		DIAMONDS = 1,
-		SPADES   = 2,
-		CLUBS    = 3
-	};
 
 	// Short visual representation of Suits:
 	//  - Heart, Diamond, Spade and Clubs
-	char strSuits[4] = {'H', 'D', 'S', 'C'};
+	const static char strSuits[4];
 
 	// Numeric value (0 - 51) to Suits(Heart, Diamond, Spade, Club)
-	int nvalToSuit[] = {HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, \
-	                HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, \
-	                DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, \
-	                DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, DIAMONDS, \
-	                SPADES, SPADES, SPADES, SPADES, SPADES, SPADES, \
-	                SPADES, SPADES, SPADES, SPADES, SPADES, SPADES, SPADES, \
-	                CLUBS, CLUBS, CLUBS, CLUBS, CLUBS, CLUBS, \
-	                CLUBS, CLUBS, CLUBS, CLUBS, CLUBS, CLUBS, CLUBS};
+	const static int nvalToSuit[52];
 
-	int strSymbolicRanks = {'Nada', '0', 'A', '2', '3', '4', '5', '6', '7',
-			'8', '9', 'T', 'J', 'Q', 'K'
-	};
+	const static int strSymbolicRanks[14];
 
 	int numericValue;
 	int numericRank;
 	int suit;
 	char symbolicRank;
 
+	char cardHumanReadable[3];
 
 public:
 	Card(int numericValue);
+
+	char* toString();
 };
 
 #endif
