@@ -35,12 +35,12 @@ class Hand:
   # Returns a list of tuples(Card.SUIT, n)
   def __suitCount(self):
     card = self.cards[0]
-    self.suitCountDict = {card.HEARTS : 0, card.DIAMONDS : 0, card.SPADES : 0, card.CLUBS : 0}
+    suitCountDict = {card.HEARTS : 0, card.DIAMONDS : 0, card.SPADES : 0, card.CLUBS : 0}
     for card in self.cards:
-      self.suitCountDict[card.suit] += 1
+      suitCountDict[card.suit] += 1
     # Sort the suits in descending order of counts(the most counts first)
-    sortedKeys = sorted(self.suitCountDict, key=self.suitCountDict.__getitem__, reverse=True)
-    self.suitCountOrdered = [(k, self.suitCountDict[k]) for k in sortedKeys]
+    sortedKeys = sorted(suitCountDict, key=suitCountDict.__getitem__, reverse=True)
+    self.suitCountOrdered = [(k, suitCountDict[k]) for k in sortedKeys]
 
     return self.suitCountOrdered
 
