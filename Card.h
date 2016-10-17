@@ -2,7 +2,7 @@
 #define _CARD_H
 
 enum Suits {
-	HEARTS = 0, DIAMONDS = 1, SPADES = 2, CLUBS = 3
+	HEARTS = 0, DIAMONDS = 1, SPADES = 2, CLUBS = 3, N_SUITS
 };
 
 class Card {
@@ -16,9 +16,12 @@ class Card {
 
 	const static int strSymbolicRanks[14];
 
+public:
+	int suit;
+
+private:
 	int numericValue;
 	int numericRank;
-	int suit;
 	char symbolicRank;
 
 	char cardHumanReadable[3];

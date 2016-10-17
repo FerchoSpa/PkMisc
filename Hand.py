@@ -20,15 +20,21 @@ class Hand:
   def __init__(self):
     self.cards = []
     self.suitCountDict = {Card.Card.HEARTS : 0, Card.Card.DIAMONDS : 0, Card.Card.SPADES : 0, Card.Card.CLUBS : 0}
+    self.faceCountDict = {}
 
   def accept(self, card):
     self.cards.append(card)
     self.suitCountDict[card.suit] += 1
+    if self.faceCountDict.has_key(card.numericRank):
+      self.faceCountDict[card.numericRank] += 1
+    else:
+      self.faceCountDict[card.numericRank]  = 1
 
   def removeLast(self):
     card = self.cards[-1]
     self.cards = self.cards[:-1]
     self.suitCountDict[card.suit] -= 1
+    self.faceCountDict[card.numericRank] -= 1
 
   def __repr__(self):
     return str(self.cards)
@@ -45,15 +51,9 @@ class Hand:
 
   # Returns a list of tuples(Card.numericRank, n)
   def __faceCardCount(self):
-    faceCountDict = {}
-    for card in self.cards:
-      if faceCountDict.has_key(card.numericRank):
-        faceCountDict[card.numericRank] += 1
-      else:
-        faceCountDict[card.numericRank]  = 1
     # Sort the face values in descending order of counts(the most counts first)
-    sortedKeys = sorted(faceCountDict, key=faceCountDict.__getitem__, reverse=True)
-    self.faceCountOrdered = [(k, faceCountDict[k]) for k in sortedKeys]
+    sortedKeys = sorted(self.faceCountDict, key=self.faceCountDict.__getitem__, reverse=True)
+    self.faceCountOrdered = [(k, self.faceCountDict[k]) for k in sortedKeys]
     return self.faceCountOrdered
 
   def __isPair(self):
@@ -84,7 +84,6 @@ class Hand:
     return nMax
 
   def __isStraight(self):
-    unrepeatedCards = []
     unrepeatedCardsSet = set([k.numericRank for k in self.cards])
     unrepeatedCards = list(unrepeatedCardsSet)
     unrepeatedCards.sort()
