@@ -19,12 +19,16 @@ class Hand:
 
   def __init__(self):
     self.cards = []
+    self.suitCountDict = {Card.Card.HEARTS : 0, Card.Card.DIAMONDS : 0, Card.Card.SPADES : 0, Card.Card.CLUBS : 0}
 
   def accept(self, card):
     self.cards.append(card)
+    self.suitCountDict[card.suit] += 1
 
   def removeLast(self):
+    card = self.cards[-1]
     self.cards = self.cards[:-1]
+    self.suitCountDict[card.suit] -= 1
 
   def __repr__(self):
     return str(self.cards)
@@ -34,14 +38,9 @@ class Hand:
 
   # Returns a list of tuples(Card.SUIT, n)
   def __suitCount(self):
-    card = self.cards[0]
-    suitCountDict = {card.HEARTS : 0, card.DIAMONDS : 0, card.SPADES : 0, card.CLUBS : 0}
-    for card in self.cards:
-      suitCountDict[card.suit] += 1
     # Sort the suits in descending order of counts(the most counts first)
-    sortedKeys = sorted(suitCountDict, key=suitCountDict.__getitem__, reverse=True)
-    self.suitCountOrdered = [(k, suitCountDict[k]) for k in sortedKeys]
-
+    sortedKeys = sorted(self.suitCountDict, key=self.suitCountDict.__getitem__, reverse=True)
+    self.suitCountOrdered = [(k, self.suitCountDict[k]) for k in sortedKeys]
     return self.suitCountOrdered
 
   # Returns a list of tuples(Card.numericRank, n)
