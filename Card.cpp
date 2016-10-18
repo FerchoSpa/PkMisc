@@ -22,6 +22,7 @@ Card::Card(int numericValue) {
 	printf("Creating card\n");
     this->numericValue = numericValue;
     int n = numericValue % 13;
+    this->ordinalRank = n;
     this->numericRank = n+1;
     this->suit = nvalToSuit[numericValue];
     this->symbolicRank = strSymbolicRanks[n+1];

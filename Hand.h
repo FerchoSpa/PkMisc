@@ -21,7 +21,11 @@ enum RankValues {
 
 class Hand {
 	int suitCountDict[4];
+	int faceCountDict[13];
 	std::list<Card*> cardsInHand;
+
+	std::list<int> faceCountsNonZero;
+	std::list<Card*> sortedCardsByNumericValue;
 
 public:
 	Hand();
@@ -29,6 +33,9 @@ public:
 	void removeLast();
 
 	char* toString();
+
+private:
+	void sortCardsByNumericValue();
 };
 
 #endif
