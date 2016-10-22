@@ -25,7 +25,8 @@ class Hand {
 	std::list<Card*> cardsInHand;
 
 	std::list<int> faceCountsNonZero;
-	std::list<Card*> sortedCardsByNumericValue;
+	//std::list<Card*> sortedCardsByNumericValue;
+	Card* sortedCardsByNumericValue[7];
 
 public:
 	Hand();

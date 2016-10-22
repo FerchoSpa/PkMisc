@@ -19,9 +19,9 @@ class Card {
 public:
 	int suit;
 	int ordinalRank;  // 0-12 (A, 2, ..., J, Q, K)
+	int numericValue;  // 0-51
 
 private:
-	int numericValue;  // 0-51
 	int numericRank;   // 1-13 (A, 2, ..., J, Q, K)
 	char symbolicRank;
 
