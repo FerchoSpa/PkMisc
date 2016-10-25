@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 Hand::Hand() {
 	printf("Creating Hand\n");
@@ -14,14 +15,16 @@ Hand::Hand() {
 }
 
 char* Hand::toString() {
-	return NULL;
+	snprintf(_toStringStr, TO_STRING_STR_LEN, "H:%0d,D:%0d,S:%0d,C:%0d", suitCountDict[0],
+			suitCountDict[1],
+			suitCountDict[2], suitCountDict[3]);
+	return _toStringStr;
 }
 
 
 void Hand::accept(Card* c){
-	printf("List size:%ld\n", cardsInHand.size());
 	cardsInHand.push_back(c);
-	printf("List size:%ld\n", cardsInHand.size());
+	printf("accept:List size:%ld\n", cardsInHand.size());
 	suitCountDict[c->suit] += 1;
 	int cardOrdinalRank = c->ordinalRank;
 	if (faceCountDict[cardOrdinalRank] == 0){
@@ -39,7 +42,7 @@ void Hand::removeLast() {
 	if (faceCountDict[cardOrdinalRank] == 0){
 		faceCountsNonZero.remove(cardOrdinalRank);
 	}
-	printf("List size:%ld, card:%s\n", cardsInHand.size(), c->toString());
+	printf("removeLast:List size:%ld, card:%s\n", cardsInHand.size(), c->toString());
 }
 
 void Hand::sortCardsByNumericValue() {
@@ -61,4 +64,11 @@ void Hand::sortCardsByNumericValue() {
 			}
 		}
 	}
+}
+
+void Hand::evaluate() {
+	assert(cardsInHand.size() == 7);
+
+	this->sortCardsByNumericValue();
+
 }

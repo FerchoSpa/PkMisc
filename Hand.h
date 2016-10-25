@@ -5,6 +5,7 @@
 
 #include "Card.h"
 
+#define TO_STRING_STR_LEN 80
 enum RankValues {
 	VAL_NONE = -1,
 	VAL_ROYAL_FLUSH = 0,
@@ -28,10 +29,12 @@ class Hand {
 	//std::list<Card*> sortedCardsByNumericValue;
 	Card* sortedCardsByNumericValue[7];
 
+	char _toStringStr[TO_STRING_STR_LEN];
 public:
 	Hand();
 	void accept(Card* c);
 	void removeLast();
+	void evaluate();
 
 	char* toString();
 
