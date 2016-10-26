@@ -36,6 +36,9 @@ public:
 	void removeLast();
 	void evaluate();
 
+	int* getSuitCount();
+	Card** getSortedCardsByNumericValue();
+
 	char* toString();
 
 private:

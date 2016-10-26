@@ -21,6 +21,13 @@ char* Hand::toString() {
 	return _toStringStr;
 }
 
+int* Hand::getSuitCount() {
+	return this->suitCountDict;
+}
+
+Card** Hand::getSortedCardsByNumericValue() {
+	return this->sortedCardsByNumericValue;
+}
 
 void Hand::accept(Card* c){
 	cardsInHand.push_back(c);
@@ -51,16 +58,17 @@ void Hand::sortCardsByNumericValue() {
 	int k=0;
 	for (it=cardsInHand.begin(); it!=cardsInHand.end(); ++it) {
 		sortedCardsByNumericValue[k] = *it;
+		k += 1;
 	}
 	for (int i = 0; i<k-1; i++) {
 		for (int j = i+1; j<k; j++) {
 			Card* iCard = sortedCardsByNumericValue[i];
 			Card* jCard = sortedCardsByNumericValue[j];
 
-			if (iCard->numericValue < jCard->numericValue) {
+			if (jCard->numericValue < iCard->numericValue) {
 				Card* tmp = sortedCardsByNumericValue[i];
 				sortedCardsByNumericValue[i] = sortedCardsByNumericValue[j];
-				sortedCardsByNumericValue[j] = sortedCardsByNumericValue[i];
+				sortedCardsByNumericValue[j] = tmp;
 			}
 		}
 	}
