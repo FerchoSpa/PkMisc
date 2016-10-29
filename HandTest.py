@@ -4,6 +4,7 @@ import unittest
 
 import Hand
 import Card
+import HandEvaluation as he
 
 class TestHandMethods(unittest.TestCase):
 
@@ -25,7 +26,7 @@ class TestHandMethods(unittest.TestCase):
     suit, count = hv[0]
     self.assertEqual(suit, c.DIAMONDS)
     self.assertEqual(count, 5)
-    self.assertEqual(rank, h.VAL_ROYAL_FLUSH)
+    self.assertEqual(rank, he.HandEvaluation.ROYAL_FLUSH)
 
 
   def testRoyalFlushRiver(self):
@@ -46,7 +47,7 @@ class TestHandMethods(unittest.TestCase):
     suit, count = hv[0]
     self.assertEqual(suit, d)
     self.assertEqual(count, 5)
-    self.assertEqual(rank, h.VAL_ROYAL_FLUSH)
+    self.assertEqual(rank, he.HandEvaluation.ROYAL_FLUSH)
 
   def testStraightFlushHeart(self):
     h = Hand.Hand()
@@ -67,7 +68,7 @@ class TestHandMethods(unittest.TestCase):
     suit, count = hv[0]
     self.assertEqual(suit, d)
     self.assertEqual(count, 5)
-    self.assertEqual(rank, h.VAL_STRAIGHT_FLUSH)
+    self.assertEqual(rank, he.HandEvaluation.STRAIGHT_FLUSH)
 
   def testStraightFlushSpades(self):
     h = Hand.Hand()
@@ -88,7 +89,7 @@ class TestHandMethods(unittest.TestCase):
     suit, count = hv[0]
     self.assertEqual(suit, d)
     self.assertEqual(count, 5)
-    self.assertEqual(rank, h.VAL_STRAIGHT_FLUSH)
+    self.assertEqual(rank, he.HandEvaluation.STRAIGHT_FLUSH)
 
   def testFourOfKindFlop(self):
     h = Hand.Hand()
@@ -106,7 +107,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
+    self.assertEqual(rank, he.HandEvaluation.FOUR_OF_A_KIND)
 
   def testFourOfKindTurn(self):
     h = Hand.Hand()
@@ -124,7 +125,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
+    self.assertEqual(rank, he.HandEvaluation.FOUR_OF_A_KIND)
 
   def testFourOfKindRiver(self):
     h = Hand.Hand()
@@ -142,7 +143,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
+    self.assertEqual(rank, he.HandEvaluation.FOUR_OF_A_KIND)
 
   def testFourOfKindBoard(self):
     h = Hand.Hand()
@@ -160,7 +161,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FOUR_OF_A_KIND)
+    self.assertEqual(rank, he.HandEvaluation.FOUR_OF_A_KIND)
 
   def testFullHouseFlop(self):
     h = Hand.Hand()
@@ -179,7 +180,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FULL_HOUSE)
+    self.assertEqual(rank, he.HandEvaluation.FULL_HOUSE)
 
   def testFlushFlop(self):
     h = Hand.Hand()
@@ -197,7 +198,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_FLUSH)
+    self.assertEqual(rank, he.HandEvaluation.FLUSH)
 
   def testStraightFlop(self):
     h = Hand.Hand()
@@ -213,7 +214,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_STRAIGHT)
+    self.assertEqual(rank, he.HandEvaluation.STRAIGHT)
 
   def testThreeOfKindFlop(self):
     h = Hand.Hand()
@@ -229,7 +230,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_THREE_OF_A_KIND)
+    self.assertEqual(rank, he.HandEvaluation.THREE_OF_A_KIND)
     
 
   def testTwoPairsFlop(self):
@@ -246,7 +247,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_TWO_PAIR)
+    self.assertEqual(rank, he.HandEvaluation.TWO_PAIR)
 
   def testPocketPair(self):
     h = Hand.Hand()
@@ -262,7 +263,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_PAIR)
+    self.assertEqual(rank, he.HandEvaluation.PAIR)
     
   def testHighCard(self):
     h = Hand.Hand()
@@ -278,7 +279,7 @@ class TestHandMethods(unittest.TestCase):
     rank, hv = h.evaluate()
 
     face, count = hv[0]
-    self.assertEqual(rank, h.VAL_HIGH_CARD)
+    self.assertEqual(rank, he.HandEvaluation.HIGH_CARD)
 
 if __name__ == '__main__':
   unittest.main()

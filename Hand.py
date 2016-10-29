@@ -1,23 +1,13 @@
 #! /usr/bin/env python
 
 import Card
+import HandEvaluation as he
 
 class Hand:
   """ A Hand of Poker cards """
 
-  VAL_NONE            = -1
-  VAL_ROYAL_FLUSH     = 0
-  VAL_STRAIGHT_FLUSH  = 1
-  VAL_FOUR_OF_A_KIND  = 2
-  VAL_FULL_HOUSE      = 3
-  VAL_FLUSH           = 4
-  VAL_STRAIGHT        = 5
-  VAL_THREE_OF_A_KIND = 6
-  VAL_TWO_PAIR        = 7
-  VAL_PAIR            = 8
-  VAL_HIGH_CARD       = 9
-
-  def __init__(self):
+  def __init__(self, handId):
+    self.handId= handId
     self.cards = []
     self.suitCountDict = {Card.Card.HEARTS : 0, Card.Card.DIAMONDS : 0, Card.Card.SPADES : 0, Card.Card.CLUBS : 0}
     self.faceCountDict = {}
@@ -30,11 +20,13 @@ class Hand:
     else:
       self.faceCountDict[card.numericRank]  = 1
 
+  """
   def removeLast(self):
     card = self.cards[-1]
     self.cards = self.cards[:-1]
     self.suitCountDict[card.suit] -= 1
     self.faceCountDict[card.numericRank] -= 1
+  """
 
   def __repr__(self):
     return str(self.cards)
@@ -146,34 +138,34 @@ class Hand:
     # Only bother with RoyalFlush and Straight Flush if possible
     if count >= 5:
       if self.__isRoyalFlush(suit):
-        return self.VAL_ROYAL_FLUSH, self.suitCountOrdered
+        return he.HandEvaluation.ROYAL_FLUSH, self.suitCountOrdered
       elif self.__islStraightFlush(suit):
-       return self.VAL_STRAIGHT_FLUSH, self.suitCountOrdered
+       return he.HandEvaluation.STRAIGHT_FLUSH, self.suitCountOrdered
  
     self.__faceCardCount()
 
     if self.__isFourOfKind():
-      return self.VAL_FOUR_OF_A_KIND, self.faceCountOrdered
+      return he.HandEvaluation.FOUR_OF_A_KIND, self.faceCountOrdered
 
     if self.__isFullHouse():
-      return self.VAL_FULL_HOUSE, self.faceCountOrdered
+      return he.HandEvaluation.FULL_HOUSE, self.faceCountOrdered
 
     if count >= 5:
-      return self.VAL_FLUSH, self.suitCountOrdered
+      return he.HandEvaluation.FLUSH, self.suitCountOrdered
 
     if self.__isStraight():
-      return self.VAL_STRAIGHT, self.faceCountOrdered
+      return he.HandEvaluation.STRAIGHT, self.faceCountOrdered
 
     if self.__isThreeOfKind():
-      return self.VAL_THREE_OF_A_KIND, self.faceCountOrdered
+      return he.HandEvaluation.THREE_OF_A_KIND, self.faceCountOrdered
 
     if self.__isTwoPairs():
-      return self.VAL_TWO_PAIR, self.faceCountOrdered
+      return he.HandEvaluation.TWO_PAIR, self.faceCountOrdered
 
     if self.__isPair():
-      return self.VAL_PAIR, self.faceCountOrdered
+      return he.HandEvaluation.PAIR, self.faceCountOrdered
 
-    return self.VAL_HIGH_CARD, self.suitCountOrdered
+    return he.HandEvaluation.HIGH_CARD, self.suitCountOrdered
 
 if __name__ == '__main__':
   h = Hand()

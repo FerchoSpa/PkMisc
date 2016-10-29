@@ -3,21 +3,18 @@
 import Card
 import Hand
 
-import pickle
+import cPickle
 
-class HandsBuilder:
+class BoardBuilder:
   """ Builds all possible 5-card hands """
 
   def __init__(self):
-    self.cards = []
+    return
 
   def buildHands(self):
     hands = []
 
     st= 0
-  
-    counters = {}
-    counters[0] = 0
   
     nc = 52
     count = 0
@@ -26,38 +23,30 @@ class HandsBuilder:
       cards[i] = Card.Card(i)
 
     for i in range(0, nc):
-      print i
+      print i,
       c1 = cards[i]
       for j in range(i+1, nc):
         c2 = cards[j]
-        #"""
         for k in range(j+1, nc):
           c3 = cards[k]
           for l in range(k+1, nc):
             c4 = cards[l]
             for m in range(l+1, nc):
-              count += 1
               c5 = cards[m]
-              h = Hand.Hand()
-              h.accept(c1)
-              h.accept(c2)
-              h.accept(c3)
-              h.accept(c4)
-              h.accept(c5)
-              counters[0] += 1
-              hands.append(h)
-        #"""
+              hands.append([i, j, k, l, m])
+              count += 1
+      print
     return hands
 
 if __name__ == '__main__':
    
-  output = open('hands.db', 'wb')
+  #output = open('boards.db', 'wb')
 
-  he = HandsBuilder()
+  he = BoardBuilder()
   hands = he.buildHands()
   print "Unique hands  :", len(hands)
 
-  pickle.dump(hands, output)
+  #cPickle.dump(hands, output)
 
-  output.close()
+  #output.close()
 

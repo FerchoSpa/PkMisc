@@ -50,6 +50,9 @@ class Card:
     self.suit = self.nvalToSuit[self.numericValue]
     self.symbolicRank = self.numericRankToSymbolicRank[self.numericRank]
 
+  def __eq__(self, other):
+    return self.numericValue == other.numericValue
+
   def numericRankToStringRank(self, n):
     return self.numericRankToSymbolicRank[n]
 
