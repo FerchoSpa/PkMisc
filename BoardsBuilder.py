@@ -5,7 +5,7 @@ import Hand
 
 import cPickle
 
-class BoardBuilder:
+class BoardsBuilder:
   """ Builds all possible 5-card hands """
 
   def __init__(self):
@@ -42,7 +42,7 @@ if __name__ == '__main__':
    
   #output = open('boards.db', 'wb')
 
-  he = BoardBuilder()
+  he = BoardsBuilder()
   hands = he.buildHands()
   print "Unique hands  :", len(hands)
 

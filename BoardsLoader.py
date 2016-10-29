@@ -2,7 +2,7 @@
 
 import cPickle
 
-class BoardLoader:
+class BoardsLoader:
   """ Loads all possible 5-card boards """
 
   def __init__(self):
@@ -30,7 +30,7 @@ class BoardLoader:
 
 if __name__ == '__main__':
    
-  he = BoardLoader()
+  he = BoardsLoader()
   print "Loading boards..."
   boards = he.loadHands('boards.db')
   print "Unique boards  :", len(boards)
