@@ -3,6 +3,7 @@
 // 0 1 2 3 4 5 6 7 8 9 0 1 2 (A-K H)
 #include "Card.h"
 #include "Hand.h"
+#include "BoardsBuilder.h"
 
 int main() {
 	Card* c1 = new Card(3);  // 4H
@@ -45,6 +46,16 @@ int main() {
 	}
 
 	h->removeLast();
+
+	int wholeCards[52];
+	bzero(wholeCards, sizeof(wholeCards));
+	wholeCards[0] = 1;
+	wholeCards[1] = 1;
+	BoardsBuilder bb;
+	bb.buildBoards(wholeCards);
+
+
+	printf("Done\n");
 
 	return 0;
 }
