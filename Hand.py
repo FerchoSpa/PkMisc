@@ -7,32 +7,27 @@ class Hand:
   """ A Hand of Poker cards """
 
   def __init__(self, handId):
+    self.cardNumbers = []
     self.handId= handId
-    self.cards = []
     self.suitCountDict = {Card.Card.HEARTS : 0, Card.Card.DIAMONDS : 0, Card.Card.SPADES : 0, Card.Card.CLUBS : 0}
     self.faceCountDict = {}
 
-  def accept(self, card):
-    self.cards.append(card)
-    self.suitCountDict[card.suit] += 1
-    if self.faceCountDict.has_key(card.numericRank):
-      self.faceCountDict[card.numericRank] += 1
+  def accept(self, cardNumber):
+    self.cardNumbers.append(cardNumber)
+    cardSuit = cardNumber / 13
+    cardNumericRank = cardNumber % 13;
+    self.suitCountDict[cardSuit] += 1
+    if self.faceCountDict.has_key(cardNumericRank):
+      self.faceCountDict[cardNumericRank] += 1
     else:
-      self.faceCountDict[card.numericRank]  = 1
-
-  """
-  def removeLast(self):
-    card = self.cards[-1]
-    self.cards = self.cards[:-1]
-    self.suitCountDict[card.suit] -= 1
-    self.faceCountDict[card.numericRank] -= 1
-  """
+      self.faceCountDict[cardNumericRank]  = 1
 
   def __repr__(self):
-    return str(self.cards)
+    return str(self.cardNumbers)
 
   def __sortCards(self):
-    self.sortedCards = sorted(self.cards, key=lambda card: card.numericValue)
+    #self.sortedCards = sorted(self.cardNumbers, key=lambda int: card.numericValue)
+    self.sortedCards = sorted(self.cardNumbers)
 
   # Returns a list of tuples(Card.SUIT, n)
   def __suitCount(self):
@@ -76,7 +71,7 @@ class Hand:
     return nMax
 
   def __isStraight(self):
-    unrepeatedCardsSet = set([k.numericRank for k in self.cards])
+    unrepeatedCardsSet = set([k%13 for k in self.cardNumbers])
     unrepeatedCards = list(unrepeatedCardsSet)
     unrepeatedCards.sort()
     if unrepeatedCards[0]==1:
@@ -96,25 +91,28 @@ class Hand:
 
   # It doesn't consider Royal Flush (as it was evaluated already)
   def __isStraightFlushFromThisCard(self, suit, lCards):
-    previousCard = lCards[0].numericRank
+    previousCard = lCards[0] % 13
     count = 1
     for card in lCards[1:]:
-      if card.suit != suit:
+      cardSuit = card/13
+      if cardSuit != suit:
         return False
-      if card.numericRank == previousCard+1:
+      cardNumericRank = card % 13
+      if cardNumericRank == previousCard+1:
         count += 1
         if count==5:
           return True
       else:
         count = 1
-      previousCard = card.numericRank
+      previousCard = cardNumericRank
     return False
 
   def __islStraightFlush(self, suit):
     # The hand has no repeats, its not a royal flush, and has at least 5 of same suit
     cardsInRoyalFlush = 0;
     for idx, card in enumerate(self.sortedCards):
-      if card.suit == suit:
+      cardSuit = card/13
+      if cardSuit == suit:
         return self.__isStraightFlushFromThisCard(suit, self.sortedCards[idx:])
     return False
 
@@ -122,13 +120,15 @@ class Hand:
     # The hand has no repeats, so count how many are in T, J, Q, K, A range for suit
     cardsInRoyalFlush = 0;
     for card in self.sortedCards:
-      if card.suit == suit:
-        if card.symbolicRank in [card.ACE, card.TEN, card.JACK, card.QUEEN, card.KING]:
+      cardSuit = card/13
+      if cardSuit == suit:
+        cardSymbolicRank = card%13
+        if cardSymbolicRank in [0, 9, 10, 11, 12]:
           cardsInRoyalFlush += 1
     return cardsInRoyalFlush == 5
 
   def evaluate(self):
-    if len(self.cards) != 7:
+    if len(self.cardNumbers) != 7:
       return None
     self.__sortCards()
     self.__suitCount()
@@ -168,15 +168,59 @@ class Hand:
     return he.HandEvaluation.HIGH_CARD, self.suitCountOrdered
 
 if __name__ == '__main__':
-  h = Hand()
+  h = Hand(0)
 
-  c = Card.Card(1); h.accept(c)
-  c = Card.Card(13+2); h.accept(c)
-  c = Card.Card(3); h.accept(c)
-  c = Card.Card(13+3); h.accept(c)
-  c = Card.Card(5); h.accept(c)
-  c = Card.Card(4); h.accept(c)
-  c = Card.Card(13*1+4); h.accept(c)
+  """
+  h.accept(1)
+  h.accept(13+2)
+  h.accept(3)
+  h.accept(13+3)
+  h.accept(5)
+  h.accept(4)
+  h.accept(13*1+4)
 
   h.evaluate()
+  """
+
+  """
+  d = 0
+
+  h.accept(13*d+2)
+  h.accept(15)
+  h.accept(13*d+5)
+  h.accept(13*d+4)
+  h.accept(13*d+1)
+  h.accept(32)
+  h.accept(13*d+3)
+
+  rank, hv = h.evaluate()
+
+  print len(hv), 4
+  suit, count = hv[0]
+  print suit, d
+  print count, 5
+  print rank, he.HandEvaluation.STRAIGHT_FLUSH
+  """
+
+
+
+
+  d = 3
+
+  h.accept(13*d+2)
+  h.accept(15)
+  h.accept(13*d+1)
+  h.accept(13*d+4)
+  h.accept(22)
+  h.accept(13*d+0)
+  h.accept(13*d+3)
+
+  rank, hv = h.evaluate()
+
+  print len(hv), 4
+  suit, count = hv[0]
+  print suit, d
+  print count, 5
+  print rank, he.HandEvaluation.STRAIGHT_FLUSH
+
 
