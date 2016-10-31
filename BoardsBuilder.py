@@ -2,6 +2,7 @@
 
 import Card
 import Hand
+import array
 
 import cPickle
 
@@ -11,7 +12,7 @@ class BoardsBuilder:
   def __init__(self):
     return
 
-  def buildHands(self):
+  def buildHands(self, wholeCards):
     hands = []
 
     st= 0
@@ -24,13 +25,18 @@ class BoardsBuilder:
 
     for i in range(0, nc):
       print i,
+      if wholeCards[i]: continue
       for j in range(i+1, nc):
+        if wholeCards[j]: continue
         for k in range(j+1, nc):
+          if wholeCards[k]: continue
           for l in range(k+1, nc):
+            if wholeCards[l]: continue
             for m in range(l+1, nc):
+              if wholeCards[m]: continue
               hands.append([i, j, k, l, m])
               count += 1
-      print
+    print
     return hands
 
 if __name__ == '__main__':
@@ -38,7 +44,10 @@ if __name__ == '__main__':
   #output = open('boards.db', 'wb')
 
   he = BoardsBuilder()
-  hands = he.buildHands()
+  wholeCards = array.array('l', [0]*52)
+  wholeCards[30] = 1
+  wholeCards[31] = 1
+  hands = he.buildHands(wholeCards)
   print "Unique hands  :", len(hands)
 
   #cPickle.dump(hands, output)
