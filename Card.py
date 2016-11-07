@@ -46,22 +46,18 @@ class Card:
 
   def __init__(self, numericValue):
     self.numericValue = numericValue
+    self.numericRank = self.nvalToNumericRank[self.numericValue]
+    self.suit = self.nvalToSuit[self.numericValue]
+    self.symbolicRank = self.numericRankToSymbolicRank[self.numericRank]
 
-  def suit(self):
-    return self.nvalToSuit[self.numericValue]
-
-  def numericRank(self):
-    return self.nvalToNumericRank[self.numericValue]
-
-  def symbolicRank(self):
-    n = self.numericRank()
-    return self.numericRankToSymbolicRank[n]
+  def __eq__(self, other):
+    return self.numericValue == other.numericValue
 
   def numericRankToStringRank(self, n):
     return self.numericRankToSymbolicRank[n]
 
   def __repr__(self):
-    return str(self.numericRank())+self.strSuits[self.suit()]
+    return str(self.numericRank)+self.strSuits[self.suit]
 
 if __name__ == '__main__':
   c = Card(14)
