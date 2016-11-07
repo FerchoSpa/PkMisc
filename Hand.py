@@ -22,6 +22,14 @@ class Hand:
     else:
       self.faceCountDict[cardNumericRank]  = 1
 
+  def removeLast(self):
+    cardNumber = self.cardNumbers[-1]
+    self.cardNumbers = self.cardNumbers[:-1]
+    cardSuit = cardNumber / 13
+    cardNumericRank = cardNumber % 13;
+    self.suitCountDict[cardSuit] -= 1
+    self.faceCountDict[cardNumericRank] -= 1
+
   def __repr__(self):
     return str(self.cardNumbers)
 
@@ -74,9 +82,9 @@ class Hand:
     unrepeatedCardsSet = set([k%13 for k in self.cardNumbers])
     unrepeatedCards = list(unrepeatedCardsSet)
     unrepeatedCards.sort()
-    if unrepeatedCards[0]==1:
+    if unrepeatedCards[0]==0:
       # Add King + 1, so it can detect 10,J,Q,K,A
-      unrepeatedCards.append(14)
+      unrepeatedCards.append(13)
     longestStraight = self.__findLongestStraight(unrepeatedCards)
     return longestStraight >= 5
 
