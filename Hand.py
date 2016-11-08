@@ -28,7 +28,10 @@ class Hand:
     cardSuit = cardNumber / 13
     cardNumericRank = cardNumber % 13;
     self.suitCountDict[cardSuit] -= 1
-    self.faceCountDict[cardNumericRank] -= 1
+    if self.faceCountDict[cardNumericRank] == 1:
+      self.faceCountDict.pop(cardNumericRank, None)
+    else:
+      self.faceCountDict[cardNumericRank] -= 1
 
   def __repr__(self):
     return str(self.cardNumbers)
