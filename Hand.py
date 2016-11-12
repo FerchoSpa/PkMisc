@@ -37,8 +37,8 @@ class Hand:
     return str(self.cardNumbers)
 
   def __sortCards(self):
-    #self.sortedCards = sorted(self.cardNumbers, key=lambda int: card.numericValue)
-    self.sortedCards = sorted(self.cardNumbers)
+    #self.sortedCards = sorted(self.cardNumbers)
+    self.sortedCards = self.cardNumbers
 
   # Returns a list of tuples(Card.SUIT, n)
   def __suitCount(self):

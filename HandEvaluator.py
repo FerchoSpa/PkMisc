@@ -3,6 +3,7 @@
 import Card
 import Hand
 import HandEvaluation as he
+import BoardsBuilder as bb
 
 class HandEvaluator:
   """ Evaluates a hand of Poker cards """
@@ -11,9 +12,6 @@ class HandEvaluator:
     self.cards = []
 
   def evaluateSingleHand(self, c1, c2):
-
-    st= 0
-  
     counters = {}
     counters[he.HandEvaluation.NONE]            = 0
     counters[he.HandEvaluation.ROYAL_FLUSH]     = 0
@@ -65,9 +63,100 @@ class HandEvaluator:
 
     return counters, count
 
+  def evaluateOneHand(self, wholeCards):
+    counters = {}
+    counters[he.HandEvaluation.NONE]            = 0
+    counters[he.HandEvaluation.ROYAL_FLUSH]     = 0
+    counters[he.HandEvaluation.STRAIGHT_FLUSH]  = 0
+    counters[he.HandEvaluation.FOUR_OF_A_KIND]  = 0
+    counters[he.HandEvaluation.FULL_HOUSE]      = 0
+    counters[he.HandEvaluation.FLUSH]           = 0
+    counters[he.HandEvaluation.STRAIGHT]        = 0
+    counters[he.HandEvaluation.THREE_OF_A_KIND] = 0
+    counters[he.HandEvaluation.TWO_PAIR]        = 0
+    counters[he.HandEvaluation.PAIR]            = 0
+    counters[he.HandEvaluation.HIGH_CARD]       = 0
+  
+    nc = 52
+    count = 0
+
+    boardBuilder = bb.BoardsBuilder()
+    print "About to start"
+    hands = boardBuilder.buildBoardsWithWholeCards(wholeCards)
+    for hnd in hands:
+      h = Hand.Hand(0)
+      for card in hnd:
+        h.accept(card)
+      a, b = h.evaluate()
+      count += 1
+      counters[a] += 1
+
+    return counters, count
+
+  def evaluateOneHand2(self, wholeCards):
+    counters = {}
+    counters[he.HandEvaluation.NONE]            = 0
+    counters[he.HandEvaluation.ROYAL_FLUSH]     = 0
+    counters[he.HandEvaluation.STRAIGHT_FLUSH]  = 0
+    counters[he.HandEvaluation.FOUR_OF_A_KIND]  = 0
+    counters[he.HandEvaluation.FULL_HOUSE]      = 0
+    counters[he.HandEvaluation.FLUSH]           = 0
+    counters[he.HandEvaluation.STRAIGHT]        = 0
+    counters[he.HandEvaluation.THREE_OF_A_KIND] = 0
+    counters[he.HandEvaluation.TWO_PAIR]        = 0
+    counters[he.HandEvaluation.PAIR]            = 0
+    counters[he.HandEvaluation.HIGH_CARD]       = 0
+  
+    nc = 52
+    count = 0
+
+    wholeCardsAndBoard = [0]*52
+    for i, x in enumerate(wholeCardsAndBoard):
+      if wholeCards[i]:
+        wholeCardsAndBoard[i] = 1
+    print wholeCardsAndBoard
+
+    for i in range(0, nc):
+      print i
+      if wholeCards[i]: continue
+      wholeCardsAndBoard[i] = 1
+      for j in range(i+1, nc):
+        if wholeCards[j]: continue
+        wholeCardsAndBoard[j] = 1
+        for k in range(j+1, nc):
+          if wholeCards[k]: continue
+          wholeCardsAndBoard[k] = 1
+          for l in range(k+1, nc):
+            if wholeCards[l]: continue
+            wholeCardsAndBoard[l] = 1
+            for m in range(l+1, nc):
+              if wholeCards[m]: continue
+              wholeCardsAndBoard[m] = 1
+              if sum(wholeCardsAndBoard) == 7:
+                h = Hand.Hand(0)
+                for p in range(52):
+                  if wholeCardsAndBoard[p]:
+                    h.accept(p)
+                a, b = h.evaluate()
+                counters[a] += 1
+                count += 1
+              wholeCardsAndBoard[m] = 0
+            wholeCardsAndBoard[l] = 0
+          wholeCardsAndBoard[k] = 0
+        wholeCardsAndBoard[j] = 0
+      wholeCardsAndBoard[i] = 0
+    print
+
+    return counters, count
+
 if __name__ == '__main__':
   hev = HandEvaluator()
   c, count = hev.evaluateSingleHand(0, 1)
+  fullWholeCards = [0]*52
+  fullWholeCards[0] = 1
+  fullWholeCards[1] = 1
+  #c, count = hev.evaluateOneHand(fullWholeCards)
+  #c, count = hev.evaluateOneHand2(fullWholeCards)
   print "Unique hands  :", count
   print "Royal Flush   :", c[he.HandEvaluation.ROYAL_FLUSH], " : ", (100.0*c[he.HandEvaluation.ROYAL_FLUSH])/count
   print "Straight Flush:", c[he.HandEvaluation.STRAIGHT_FLUSH], " : ", (100.0*c[he.HandEvaluation.STRAIGHT_FLUSH])/count
