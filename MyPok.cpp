@@ -66,11 +66,25 @@ void checkRoyalFlush_Spades() {
 	assert(v==HER_ROYAL_FLUSH);
 }
 
+void checkRoyalFlush_Clubs() {
+	Hand* h = createHandWithFullBoard(C1H, CKC, CTC, C4D, CQC, C1C, CJC);
+
+	int* suitCount = h->getSuitCount();
+	assert(suitCount[0] == 1);
+	assert(suitCount[1] == 1);
+	assert(suitCount[2] == 0);
+	assert(suitCount[3] == 5);
+
+	int v = h->evaluate();
+	assert(v==HER_ROYAL_FLUSH);
+}
+
 
 int main() {
 
 	someInitialHand();
 	checkRoyalFlush_Spades();
+	checkRoyalFlush_Clubs();
 
 	printf("Done\n");
 
