@@ -20,6 +20,11 @@ enum RankValues {
 	VAL_HIGH_CARD = 9
 };
 
+enum HandEvalRank {
+	HER_NONE = -1,
+	HER_ROYAL_FLUSH = 0
+};
+
 class Hand {
 	int suitCountDict[4];
 	int faceCountDict[13];
@@ -34,7 +39,7 @@ public:
 	Hand();
 	void accept(Card* c);
 	void removeLast();
-	void evaluate();
+	int evaluate();
 
 	int* getSuitCount();
 	Card** getSortedCardsByNumericValue();
@@ -43,6 +48,8 @@ public:
 
 private:
 	void sortCardsByNumericValue();
+	int getSuitWithMostCards();
+	bool isRoyalFlush(int suit);
 };
 
 #endif

@@ -31,7 +31,6 @@ Card** Hand::getSortedCardsByNumericValue() {
 
 void Hand::accept(Card* c){
 	cardsInHand.push_back(c);
-	printf("accept:List size:%ld\n", cardsInHand.size());
 	suitCountDict[c->suit] += 1;
 	int cardOrdinalRank = c->ordinalRank;
 	if (faceCountDict[cardOrdinalRank] == 0){
@@ -74,9 +73,60 @@ void Hand::sortCardsByNumericValue() {
 	}
 }
 
-void Hand::evaluate() {
+int Hand::getSuitWithMostCards() {
+	int idx = 0;
+	int max = suitCountDict[0];
+	for (int i = 1; i<4; i++) {
+		if (suitCountDict[i]>max) {
+			idx = i;
+			max = suitCountDict[i];
+		}
+	}
+	return idx;
+}
+
+bool Hand::isRoyalFlush(int suit){
+	Card* cardsOnRoyalFlush[5];
+	int nCardsOnRoyalFlush = 0;
+	int n = cardsInHand.size();
+	for (int i = 0; i<n; i++) {
+		Card* card = sortedCardsByNumericValue[i];
+		printf("isRoyalFlush:%s, suit:%d/%d, ordinalRank:%d\n", card->toString(), card->suit, suit, card->ordinalRank);
+		if (card->suit == suit) {
+			int ordinalRank = card->ordinalRank;
+			if (ordinalRank == 0 || (ordinalRank >=9 && ordinalRank <=12)) {
+				cardsOnRoyalFlush[nCardsOnRoyalFlush] = card;
+				nCardsOnRoyalFlush += 1;
+			}
+		}
+	}
+	printf("nCardsOnRoyalFlush:%d\n", nCardsOnRoyalFlush);
+	if (nCardsOnRoyalFlush<5)
+		return false;
+	return cardsOnRoyalFlush[0]->ordinalRank == 0 &&
+			cardsOnRoyalFlush[1]->ordinalRank == 9 &&
+			cardsOnRoyalFlush[2]->ordinalRank == 10 &&
+			cardsOnRoyalFlush[3]->ordinalRank == 11 &&
+			cardsOnRoyalFlush[4]->ordinalRank == 12;
+}
+
+int Hand::evaluate() {
 	assert(cardsInHand.size() == 7);
 
 	this->sortCardsByNumericValue();
 
+	int suitMax = getSuitWithMostCards();
+//	for (int i = 0; i<4; i++) {
+//		printf("evaluate:%d = %d\n", i, suitCountDict[i]);
+//	}
+	int suitedMaxCount = suitCountDict[suitMax];
+//	printf("Suit:%d, ncards:%d\n", suitMax, suitedMaxCount);
+
+	if (suitedMaxCount>=0) {
+		if (isRoyalFlush(suitMax)) {
+			return HER_ROYAL_FLUSH;
+		}
+	}
+
+	return HER_NONE;
 }
