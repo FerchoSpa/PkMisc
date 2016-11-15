@@ -79,12 +79,19 @@ void checkRoyalFlush_Clubs() {
 	assert(v==HER_ROYAL_FLUSH);
 }
 
+void checkStraightFlush_5Diamonds() {
+	Hand* h = createHandWithFullBoard(C2D, CKC, C1D, C4D, CQC, C5D, C3D);
+
+	int v = h->evaluate();
+	assert(v==HER_STRAIGHT_FLUSH);
+}
 
 int main() {
 
 	someInitialHand();
 	checkRoyalFlush_Spades();
 	checkRoyalFlush_Clubs();
+	checkStraightFlush_5Diamonds();
 
 	printf("Done\n");
 
