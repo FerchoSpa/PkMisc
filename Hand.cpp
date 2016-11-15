@@ -125,6 +125,8 @@ int Hand::evaluate() {
 	if (suitedMaxCount>=0) {
 		if (isRoyalFlush(suitMax)) {
 			return HER_ROYAL_FLUSH;
+		} else if (isStraightFlush(suitMax)) {
+			return HER_STRAIGHT_FLUSH;
 		}
 	}
 
