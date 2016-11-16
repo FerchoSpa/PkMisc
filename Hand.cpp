@@ -91,7 +91,6 @@ bool Hand::isRoyalFlush(int suit){
 	int n = cardsInHand.size();
 	for (int i = 0; i<n; i++) {
 		Card* card = sortedCardsByNumericValue[i];
-		printf("isRoyalFlush:%s, suit:%d/%d, ordinalRank:%d\n", card->toString(), card->suit, suit, card->ordinalRank);
 		if (card->suit == suit) {
 			int ordinalRank = card->ordinalRank;
 			if (ordinalRank == 0 || (ordinalRank >=9 && ordinalRank <=12)) {
@@ -100,7 +99,6 @@ bool Hand::isRoyalFlush(int suit){
 			}
 		}
 	}
-	printf("nCardsOnRoyalFlush:%d\n", nCardsOnRoyalFlush);
 	if (nCardsOnRoyalFlush<5)
 		return false;
 	return cardsOnRoyalFlush[0]->ordinalRank == 0 &&
@@ -108,6 +106,41 @@ bool Hand::isRoyalFlush(int suit){
 			cardsOnRoyalFlush[2]->ordinalRank == 10 &&
 			cardsOnRoyalFlush[3]->ordinalRank == 11 &&
 			cardsOnRoyalFlush[4]->ordinalRank == 12;
+}
+
+bool Hand::isStraightFlush(int suit){
+	Card* cardsOnStraightFlush[7];
+	int nCardsOnStraightFlush = 0;
+	int n = cardsInHand.size();
+	for (int i = 0; i<n; i++) {
+		Card* card = sortedCardsByNumericValue[i];
+		if (card->suit == suit) {
+			cardsOnStraightFlush[nCardsOnStraightFlush] = card;
+			nCardsOnStraightFlush += 1;
+		}
+	}
+	if (nCardsOnStraightFlush<5)
+		return false;
+	if (cardsOnStraightFlush[0]->ordinalRank + 4 == cardsOnStraightFlush[4]->ordinalRank)
+		return true;
+	if (nCardsOnStraightFlush==5)
+		return false;
+	if (cardsOnStraightFlush[1]->ordinalRank + 4 == cardsOnStraightFlush[5]->ordinalRank)
+		return true;
+	if (nCardsOnStraightFlush==6)
+		return false;
+	return cardsOnStraightFlush[2]->ordinalRank + 4 == cardsOnStraightFlush[6]->ordinalRank;
+}
+
+bool Hand::isFourOfAKind(){
+	std::list<int>::iterator it;
+	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
+		int ordinalRank = *it;
+		printf("isFourOfAKind::faceCountDict[%d]=%d\n", ordinalRank, faceCountDict[ordinalRank]);
+		if (faceCountDict[ordinalRank]==4)
+			return true;
+	}
+	return false;
 }
 
 int Hand::evaluate() {
@@ -122,10 +155,15 @@ int Hand::evaluate() {
 	int suitedMaxCount = suitCountDict[suitMax];
 //	printf("Suit:%d, ncards:%d\n", suitMax, suitedMaxCount);
 
-	if (suitedMaxCount>=0) {
+	if (suitedMaxCount>=5) {
 		if (isRoyalFlush(suitMax)) {
 			return HER_ROYAL_FLUSH;
+		} else if (isStraightFlush(suitMax)) {
+			return HER_STRAIGHT_FLUSH;
 		}
+	}
+	if (isFourOfAKind()) {
+		return HER_FOUR_OF_A_KIND;
 	}
 
 	return HER_NONE;

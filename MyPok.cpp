@@ -79,12 +79,43 @@ void checkRoyalFlush_Clubs() {
 	assert(v==HER_ROYAL_FLUSH);
 }
 
+void checkStraightFlush_5Diamonds() {
+	Hand* h = createHandWithFullBoard(C2D, CKC, C1D, C4D, CQC, C5D, C3D);
+
+	int v = h->evaluate();
+	assert(v==HER_STRAIGHT_FLUSH);
+}
+
+void checkStraightFlush_6Clubs() {
+	Hand* h = createHandWithFullBoard(C2C, C5C, C7C, C8C, C8D, C4C, C6C);
+
+	int v = h->evaluate();
+	assert(v==HER_STRAIGHT_FLUSH);
+}
+
+void checkStraightFlush_7Spades() {
+	Hand* h = createHandWithFullBoard(C2S, C8S, C7S, C9S, C4S, CTS, C6S);
+
+	int v = h->evaluate();
+	assert(v==HER_STRAIGHT_FLUSH);
+}
+
+void checkFourOfAKind() {
+	Hand* h = createHandWithFullBoard(C2S, C8S, C2H, C2D, C4S, CTS, C2C);
+
+	int v = h->evaluate();
+	assert(v==HER_FOUR_OF_A_KIND);
+}
 
 int main() {
 
 	someInitialHand();
 	checkRoyalFlush_Spades();
 	checkRoyalFlush_Clubs();
+	checkStraightFlush_5Diamonds();
+	checkStraightFlush_6Clubs();
+	checkStraightFlush_7Spades();
+	checkFourOfAKind();
 
 	printf("Done\n");
 
