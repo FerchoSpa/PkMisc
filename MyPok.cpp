@@ -100,6 +100,13 @@ void checkStraightFlush_7Spades() {
 	assert(v==HER_STRAIGHT_FLUSH);
 }
 
+void checkFourOfAKind() {
+	Hand* h = createHandWithFullBoard(C2S, C8S, C2H, C2D, C4S, CTS, C2C);
+
+	int v = h->evaluate();
+	assert(v==HER_FOUR_OF_A_KIND);
+}
+
 int main() {
 
 	someInitialHand();
@@ -108,6 +115,7 @@ int main() {
 	checkStraightFlush_5Diamonds();
 	checkStraightFlush_6Clubs();
 	checkStraightFlush_7Spades();
+	checkFourOfAKind();
 
 	printf("Done\n");
 
