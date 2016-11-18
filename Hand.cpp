@@ -143,17 +143,17 @@ bool Hand::isFourOfAKind(){
 	return false;
 }
 
+bool Hand::isFullHouse() {
+	return false;
+}
+
 int Hand::evaluate() {
 	assert(cardsInHand.size() == 7);
 
 	this->sortCardsByNumericValue();
 
 	int suitMax = getSuitWithMostCards();
-//	for (int i = 0; i<4; i++) {
-//		printf("evaluate:%d = %d\n", i, suitCountDict[i]);
-//	}
 	int suitedMaxCount = suitCountDict[suitMax];
-//	printf("Suit:%d, ncards:%d\n", suitMax, suitedMaxCount);
 
 	if (suitedMaxCount>=5) {
 		if (isRoyalFlush(suitMax)) {
@@ -164,6 +164,9 @@ int Hand::evaluate() {
 	}
 	if (isFourOfAKind()) {
 		return HER_FOUR_OF_A_KIND;
+	}
+	if (isFullHouse()) {
+		return HER_FULL_HOUSE;
 	}
 
 	return HER_NONE;
