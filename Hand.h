@@ -24,7 +24,8 @@ enum HandEvalRank {
 	HER_NONE = -1,
 	HER_ROYAL_FLUSH = 0,
 	HER_STRAIGHT_FLUSH,
-	HER_FOUR_OF_A_KIND
+	HER_FOUR_OF_A_KIND,
+	HER_FULL_HOUSE
 };
 
 class Hand {
@@ -54,6 +55,7 @@ private:
 	bool isRoyalFlush(int suit);
 	bool isStraightFlush(int suit);
 	bool isFourOfAKind();
+	bool isFullHouse();
 };
 
 #endif
