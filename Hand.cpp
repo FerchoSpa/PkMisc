@@ -181,6 +181,9 @@ int Hand::evaluate() {
 	if (isFullHouse(suitMax)) {
 		return HER_FULL_HOUSE;
 	}
+	if (suitedMaxCount>=5) {
+		return HER_FLUSH;
+	}
 
 	return HER_NONE;
 }
