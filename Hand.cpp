@@ -85,6 +85,18 @@ int Hand::getSuitWithMostCards() {
 	return idx;
 }
 
+int  Hand::getNextSuitWithMostCards(int suit) {
+	int idx = 0;
+	int max = 0;
+	for (int i = 0; i<4; i++) {
+		if (i != suit && suitCountDict[i]>max) {
+			idx = i;
+			max = suitCountDict[i];
+		}
+	}
+	return idx;
+}
+
 bool Hand::isRoyalFlush(int suit){
 	Card* cardsOnRoyalFlush[5];
 	int nCardsOnRoyalFlush = 0;
@@ -143,8 +155,9 @@ bool Hand::isFourOfAKind(){
 	return false;
 }
 
-bool Hand::isFullHouse() {
-	return false;
+bool Hand::isFullHouse(int suitWithMostCards) {
+	int nextSuiteWithMostCards = getNextSuitWithMostCards(suitWithMostCards);
+	return suitCountDict[suitWithMostCards] == 3 && suitCountDict[nextSuiteWithMostCards] >= 2;
 }
 
 int Hand::evaluate() {
@@ -165,7 +178,7 @@ int Hand::evaluate() {
 	if (isFourOfAKind()) {
 		return HER_FOUR_OF_A_KIND;
 	}
-	if (isFullHouse()) {
+	if (isFullHouse(suitMax)) {
 		return HER_FULL_HOUSE;
 	}
 

@@ -107,6 +107,13 @@ void checkFourOfAKind() {
 	assert(v==HER_FOUR_OF_A_KIND);
 }
 
+void checkFullHouse() {
+	Hand* h = createHandWithFullBoard(C2S, C2D, C2H, C5D, C4S, C5S, C7C);
+
+	int v = h->evaluate();
+	assert(v==HER_FULL_HOUSE);
+}
+
 int main() {
 
 	someInitialHand();
@@ -116,6 +123,7 @@ int main() {
 	checkStraightFlush_6Clubs();
 	checkStraightFlush_7Spades();
 	checkFourOfAKind();
+	checkFullHouse();
 
 	printf("Done\n");
 

@@ -51,11 +51,12 @@ public:
 
 private:
 	void sortCardsByNumericValue();
-	int getSuitWithMostCards();
+	int  getSuitWithMostCards();
+	int  getNextSuitWithMostCards(int suit);
 	bool isRoyalFlush(int suit);
 	bool isStraightFlush(int suit);
 	bool isFourOfAKind();
-	bool isFullHouse();
+	bool isFullHouse(int suitWithMostCards);
 };
 
 #endif
