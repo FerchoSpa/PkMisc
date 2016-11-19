@@ -5,7 +5,6 @@
 #include <assert.h>
 
 Hand::Hand() {
-	printf("Creating Hand\n");
 	for (int i=0; i<N_SUITS; i++){
 		suitCountDict[i] = 0;
 	}
@@ -148,7 +147,7 @@ bool Hand::isFourOfAKind(){
 	std::list<int>::iterator it;
 	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
 		int ordinalRank = *it;
-		printf("isFourOfAKind::faceCountDict[%d]=%d\n", ordinalRank, faceCountDict[ordinalRank]);
+		//printf("isFourOfAKind::faceCountDict[%d]=%d\n", ordinalRank, faceCountDict[ordinalRank]);
 		if (faceCountDict[ordinalRank]==4)
 			return true;
 	}
@@ -180,6 +179,9 @@ int Hand::evaluate() {
 	}
 	if (isFullHouse(suitMax)) {
 		return HER_FULL_HOUSE;
+	}
+	if (suitedMaxCount>=5) {
+		return HER_FLUSH;
 	}
 
 	return HER_NONE;

@@ -19,7 +19,6 @@ const int Card::nvalToSuit[52] = {HEARTS, HEARTS, HEARTS, HEARTS, HEARTS, HEARTS
 
 
 Card::Card(int numericValue) {
-	printf("Creating card\n");
     this->numericValue = numericValue;
     int n = numericValue % 13;
     this->ordinalRank = n;

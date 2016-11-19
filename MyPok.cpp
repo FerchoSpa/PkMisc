@@ -13,7 +13,7 @@ Hand* createHandWithFullBoard(int a, int b, int c, int d, int e, int f, int g) {
 	Card* c5 = new Card(e);
 	Card* c6 = new Card(f);
 	Card* c7 = new Card(g);
-	printf("c1:%s\n", c1->toString());
+	//printf("c1:%s\n", c1->toString());
 
 	Hand* h = new Hand();
 	h->accept(c1);
@@ -34,7 +34,7 @@ Hand* createHandWithFullBoard(int a, int b, int c, int d, int e, int f, int g) {
 void someInitialHand() {
 	Hand* h = createHandWithFullBoard(3, 23, 7, 13, 26, 39, 35);
 
-	printf("Hand:%s\n", h->toString());
+	//printf("Hand:%s\n", h->toString());
 
 	int* suitCount = h->getSuitCount();
 	assert(suitCount[0] == 2);
@@ -44,10 +44,10 @@ void someInitialHand() {
 
 	h->evaluate();
 
-	Card** sortedCards = h->getSortedCardsByNumericValue();
-	for (int i=0; i<7; i++) {
-		printf("i:%d : %s\n", i, sortedCards[i]->toString());
-	}
+//	Card** sortedCards = h->getSortedCardsByNumericValue();
+//	for (int i=0; i<7; i++) {
+//		printf("i:%d : %s\n", i, sortedCards[i]->toString());
+//	}
 
 	h->removeLast();
 }
@@ -114,8 +114,13 @@ void checkFullHouse() {
 	assert(v==HER_FULL_HOUSE);
 }
 
-int main() {
+void checkFlush() {
+	Hand* h = createHandWithFullBoard(C2S, C9S, C5S, C6D, C4S, CJS, C7C);
 
+	int v = h->evaluate();
+	assert(v==HER_FLUSH);
+}
+int main() {
 	someInitialHand();
 	checkRoyalFlush_Spades();
 	checkRoyalFlush_Clubs();
@@ -124,6 +129,7 @@ int main() {
 	checkStraightFlush_7Spades();
 	checkFourOfAKind();
 	checkFullHouse();
+	checkFlush();
 
 	printf("Done\n");
 
