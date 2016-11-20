@@ -123,7 +123,7 @@ void checkFlush() {
 void checkStraight() {
 	Hand* h = createHandWithFullBoard(C2S, C9S, C5H, C6D, C4D, C3C, C2C);
 	int v = h->evaluate();
-	//assert(v==HER_FLUSH);
+	assert(v==HER_STRAIGHT);
 }
 
 int main() {

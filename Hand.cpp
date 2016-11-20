@@ -91,12 +91,12 @@ void Hand::sortCardsByNumericValue() {
 	}
 
 	nUnrepeatedCardsByRankValue = 1;
-	sortedUnrepeatedCardsByRankValue[0] = cardsByRank[0];
+	sortedUnrepeatedCardsByRankValue[0] = cardsByRank[0]->getNumericRank();
 	int prev = cardsByRank[0]->getNumericRank();
 	for (int i = 1; i<k; i++) {
 		if (cardsByRank[i]->getNumericRank() != prev) {
 			prev = cardsByRank[i]->getNumericRank();
-			sortedUnrepeatedCardsByRankValue[nUnrepeatedCardsByRankValue] = cardsByRank[i];
+			sortedUnrepeatedCardsByRankValue[nUnrepeatedCardsByRankValue] = prev;
 			nUnrepeatedCardsByRankValue += 1;
 		}
 	}
@@ -189,29 +189,17 @@ bool Hand::isFullHouse(int suitWithMostCards) {
 }
 
 bool Hand::isStraight() {
-	int n = cardsInHand.size();
-	//int prev = sortedCardsByNumericValue[0]->numericRank;
-
-	/*
-    prev = values[0]
-    n = 1
-    nMax = n
-    for v in values:
-      if v == prev+1:
-        n += 1
-        if n>nMax:
-          nMax = n
-      else:
-        n = 1
-      prev = v
-    return nMax
-
-	 */
-	for (int i=0; i<n; i++) {
-		Card* card = sortedCardsByNumericValue[i];
-		printf("isStraight:numericRanks:%d\n", card->getNumericRank());
-	}
-	return false;
+	if (nUnrepeatedCardsByRankValue<5)
+		return false;
+	if (sortedUnrepeatedCardsByRankValue[0]+4 == sortedUnrepeatedCardsByRankValue[4])
+		return true;
+	if (nUnrepeatedCardsByRankValue==5)
+		return false;
+	if (sortedUnrepeatedCardsByRankValue[1]+4 == sortedUnrepeatedCardsByRankValue[5])
+		return true;
+	if (nUnrepeatedCardsByRankValue==6)
+		return false;
+	return (sortedUnrepeatedCardsByRankValue[2]+4 == sortedUnrepeatedCardsByRankValue[6]);
 }
 
 bool Hand::isThreeOfAKind() {

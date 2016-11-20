@@ -40,7 +40,7 @@ class Hand {
 	Card* sortedCardsByNumericValue[7];
 
 	int   nUnrepeatedCardsByRankValue;
-	Card* sortedUnrepeatedCardsByRankValue[7];
+	int   sortedUnrepeatedCardsByRankValue[7];
 
 	char _toStringStr[TO_STRING_STR_LEN];
 public:
