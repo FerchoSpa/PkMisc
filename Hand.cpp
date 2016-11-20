@@ -51,13 +51,18 @@ void Hand::removeLast() {
 }
 
 void Hand::sortCardsByNumericValue() {
+	Card* cardsByRank[7];
 	bzero(sortedCardsByNumericValue, 7*sizeof(Card*));
+	bzero(cardsByRank, 7*sizeof(Card*));
 	std::list<Card*>::iterator it;
 	int k=0;
 	for (it=cardsInHand.begin(); it!=cardsInHand.end(); ++it) {
 		sortedCardsByNumericValue[k] = *it;
+		cardsByRank[k] = *it;
 		k += 1;
 	}
+
+	// Sort by Numeric Value (0-51)
 	for (int i = 0; i<k-1; i++) {
 		for (int j = i+1; j<k; j++) {
 			Card* iCard = sortedCardsByNumericValue[i];
@@ -68,6 +73,31 @@ void Hand::sortCardsByNumericValue() {
 				sortedCardsByNumericValue[i] = sortedCardsByNumericValue[j];
 				sortedCardsByNumericValue[j] = tmp;
 			}
+		}
+	}
+
+	// Sort by Numeric Rank (1-13)
+	for (int i = 0; i<k-1; i++) {
+		for (int j = i+1; j<k; j++) {
+			Card* iCard = cardsByRank[i];
+			Card* jCard = cardsByRank[j];
+
+			if (jCard->getNumericRank() < iCard->getNumericRank()) {
+				Card* tmp = cardsByRank[i];
+				cardsByRank[i] = cardsByRank[j];
+				cardsByRank[j] = tmp;
+			}
+		}
+	}
+
+	nUnrepeatedCardsByRankValue = 1;
+	sortedUnrepeatedCardsByRankValue[0] = cardsByRank[0];
+	int prev = cardsByRank[0]->getNumericRank();
+	for (int i = 1; i<k; i++) {
+		if (cardsByRank[i]->getNumericRank() != prev) {
+			prev = cardsByRank[i]->getNumericRank();
+			sortedUnrepeatedCardsByRankValue[nUnrepeatedCardsByRankValue] = cardsByRank[i];
+			nUnrepeatedCardsByRankValue += 1;
 		}
 	}
 }
@@ -147,7 +177,6 @@ bool Hand::isFourOfAKind(){
 	std::list<int>::iterator it;
 	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
 		int ordinalRank = *it;
-		//printf("isFourOfAKind::faceCountDict[%d]=%d\n", ordinalRank, faceCountDict[ordinalRank]);
 		if (faceCountDict[ordinalRank]==4)
 			return true;
 	}
@@ -157,6 +186,36 @@ bool Hand::isFourOfAKind(){
 bool Hand::isFullHouse(int suitWithMostCards) {
 	int nextSuiteWithMostCards = getNextSuitWithMostCards(suitWithMostCards);
 	return suitCountDict[suitWithMostCards] == 3 && suitCountDict[nextSuiteWithMostCards] >= 2;
+}
+
+bool Hand::isStraight() {
+	int n = cardsInHand.size();
+	//int prev = sortedCardsByNumericValue[0]->numericRank;
+
+	/*
+    prev = values[0]
+    n = 1
+    nMax = n
+    for v in values:
+      if v == prev+1:
+        n += 1
+        if n>nMax:
+          nMax = n
+      else:
+        n = 1
+      prev = v
+    return nMax
+
+	 */
+	for (int i=0; i<n; i++) {
+		Card* card = sortedCardsByNumericValue[i];
+		printf("isStraight:numericRanks:%d\n", card->getNumericRank());
+	}
+	return false;
+}
+
+bool Hand::isThreeOfAKind() {
+	return false;
 }
 
 int Hand::evaluate() {
@@ -182,6 +241,9 @@ int Hand::evaluate() {
 	}
 	if (suitedMaxCount>=5) {
 		return HER_FLUSH;
+	}
+	if (isStraight()) {
+		return HER_STRAIGHT;
 	}
 
 	return HER_NONE;

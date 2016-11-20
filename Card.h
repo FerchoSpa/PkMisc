@@ -87,6 +87,7 @@ public:
 	Card(int numericValue);
 
 	char* toString();
+	int   getNumericRank();
 };
 
 #endif

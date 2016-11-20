@@ -27,6 +27,10 @@ Card::Card(int numericValue) {
     this->symbolicRank = strSymbolicRanks[n+1];
 }
 
+int Card::getNumericRank() {
+	return this->numericRank;
+}
+
 char* Card::toString() {
 	this->cardHumanReadable[0] = this->symbolicRank;
 	this->cardHumanReadable[1] = strSuits[this->suit];
