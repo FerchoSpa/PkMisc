@@ -116,10 +116,34 @@ void checkFullHouse() {
 
 void checkFlush() {
 	Hand* h = createHandWithFullBoard(C2S, C9S, C5S, C6D, C4S, CJS, C7C);
-
 	int v = h->evaluate();
 	assert(v==HER_FLUSH);
 }
+
+void checkStraight() {
+	Hand* h = createHandWithFullBoard(C2S, C9S, C5H, C6D, C4D, C3C, C2C);
+	int v = h->evaluate();
+	assert(v==HER_STRAIGHT);
+}
+
+void checkStraight_river() {
+	Hand* h = createHandWithFullBoard(C9S, C7S, C6H, C6D, C5D, C3C, C8C);
+	int v = h->evaluate();
+	assert(v==HER_STRAIGHT);
+}
+
+void checkThreeOfAKind() {
+	Hand* h = createHandWithFullBoard(C9S, C9H, CTH, C6D, C9D, C3C, C7C);
+	int v = h->evaluate();
+	assert(v==HER_THREE_OF_A_KIND);
+}
+
+void checkTwoPairs() {
+	Hand* h = createHandWithFullBoard(C9S, C9H, CTH, CTD, C5D, C3C, C7C);
+	int v = h->evaluate();
+	assert(v==HER_TWO_PAIRS);
+}
+
 int main() {
 	someInitialHand();
 	checkRoyalFlush_Spades();
@@ -130,6 +154,10 @@ int main() {
 	checkFourOfAKind();
 	checkFullHouse();
 	checkFlush();
+	checkStraight();
+	checkStraight_river();
+	checkThreeOfAKind();
+	checkTwoPairs();
 
 	printf("Done\n");
 

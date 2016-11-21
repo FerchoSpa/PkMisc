@@ -11,6 +11,9 @@ Hand::Hand() {
 	for (int i=0; i<13; i++){
 		faceCountDict[i] = 0;
 	}
+	nUnrepeatedCardsByRankValue=0;
+	countOfMostRepeatedCard=0;
+	numberOfMostRepeatedCards=0;
 }
 
 char* Hand::toString() {
@@ -51,13 +54,18 @@ void Hand::removeLast() {
 }
 
 void Hand::sortCardsByNumericValue() {
+	Card* cardsByRank[7];
 	bzero(sortedCardsByNumericValue, 7*sizeof(Card*));
+	bzero(cardsByRank, 7*sizeof(Card*));
 	std::list<Card*>::iterator it;
 	int k=0;
 	for (it=cardsInHand.begin(); it!=cardsInHand.end(); ++it) {
 		sortedCardsByNumericValue[k] = *it;
+		cardsByRank[k] = *it;
 		k += 1;
 	}
+
+	// Sort by Numeric Value (0-51)
 	for (int i = 0; i<k-1; i++) {
 		for (int j = i+1; j<k; j++) {
 			Card* iCard = sortedCardsByNumericValue[i];
@@ -68,6 +76,31 @@ void Hand::sortCardsByNumericValue() {
 				sortedCardsByNumericValue[i] = sortedCardsByNumericValue[j];
 				sortedCardsByNumericValue[j] = tmp;
 			}
+		}
+	}
+
+	// Sort by Numeric Rank (1-13)
+	for (int i = 0; i<k-1; i++) {
+		for (int j = i+1; j<k; j++) {
+			Card* iCard = cardsByRank[i];
+			Card* jCard = cardsByRank[j];
+
+			if (jCard->getNumericRank() < iCard->getNumericRank()) {
+				Card* tmp = cardsByRank[i];
+				cardsByRank[i] = cardsByRank[j];
+				cardsByRank[j] = tmp;
+			}
+		}
+	}
+
+	nUnrepeatedCardsByRankValue = 1;
+	sortedUnrepeatedCardsByRankValue[0] = cardsByRank[0]->getNumericRank();
+	int prev = cardsByRank[0]->getNumericRank();
+	for (int i = 1; i<k; i++) {
+		if (cardsByRank[i]->getNumericRank() != prev) {
+			prev = cardsByRank[i]->getNumericRank();
+			sortedUnrepeatedCardsByRankValue[nUnrepeatedCardsByRankValue] = prev;
+			nUnrepeatedCardsByRankValue += 1;
 		}
 	}
 }
@@ -144,19 +177,48 @@ bool Hand::isStraightFlush(int suit){
 }
 
 bool Hand::isFourOfAKind(){
-	std::list<int>::iterator it;
-	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
-		int ordinalRank = *it;
-		//printf("isFourOfAKind::faceCountDict[%d]=%d\n", ordinalRank, faceCountDict[ordinalRank]);
-		if (faceCountDict[ordinalRank]==4)
-			return true;
-	}
-	return false;
+	return countOfMostRepeatedCard == 4;
 }
 
 bool Hand::isFullHouse(int suitWithMostCards) {
 	int nextSuiteWithMostCards = getNextSuitWithMostCards(suitWithMostCards);
 	return suitCountDict[suitWithMostCards] == 3 && suitCountDict[nextSuiteWithMostCards] >= 2;
+}
+
+bool Hand::isStraight() {
+	if (nUnrepeatedCardsByRankValue<5)
+		return false;
+	if (sortedUnrepeatedCardsByRankValue[0]+4 == sortedUnrepeatedCardsByRankValue[4])
+		return true;
+	if (nUnrepeatedCardsByRankValue==5)
+		return false;
+	if (sortedUnrepeatedCardsByRankValue[1]+4 == sortedUnrepeatedCardsByRankValue[5])
+		return true;
+	if (nUnrepeatedCardsByRankValue==6)
+		return false;
+	return (sortedUnrepeatedCardsByRankValue[2]+4 == sortedUnrepeatedCardsByRankValue[6]);
+}
+
+bool Hand::isThreeOfAKind() {
+	return countOfMostRepeatedCard == 3;
+}
+
+bool Hand::isTwoPairs() {
+	return numberOfMostRepeatedCards>=2;
+}
+void Hand::populateMostRepeatedCardCount(){
+	std::list<int>::iterator it;
+	countOfMostRepeatedCard = 1;
+	numberOfMostRepeatedCards += 1;
+	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
+		int ordinalRank = *it;
+		if (faceCountDict[ordinalRank]>countOfMostRepeatedCard) {
+			countOfMostRepeatedCard = faceCountDict[ordinalRank];
+			numberOfMostRepeatedCards = 1;
+		} else if (faceCountDict[ordinalRank]==countOfMostRepeatedCard) {
+			numberOfMostRepeatedCards += 1;
+		}
+	}
 }
 
 int Hand::evaluate() {
@@ -174,6 +236,7 @@ int Hand::evaluate() {
 			return HER_STRAIGHT_FLUSH;
 		}
 	}
+	populateMostRepeatedCardCount();
 	if (isFourOfAKind()) {
 		return HER_FOUR_OF_A_KIND;
 	}
@@ -182,6 +245,15 @@ int Hand::evaluate() {
 	}
 	if (suitedMaxCount>=5) {
 		return HER_FLUSH;
+	}
+	if (isStraight()) {
+		return HER_STRAIGHT;
+	}
+	if (isThreeOfAKind()) {
+		return HER_THREE_OF_A_KIND;
+	}
+	if (isTwoPairs()) {
+		return HER_TWO_PAIRS;
 	}
 
 	return HER_NONE;
