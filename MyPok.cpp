@@ -138,6 +138,11 @@ void checkThreeOfAKind() {
 	assert(v==HER_THREE_OF_A_KIND);
 }
 
+void checkTwoPairs() {
+	Hand* h = createHandWithFullBoard(C9S, C9H, CTH, CTD, C5D, C3C, C7C);
+	int v = h->evaluate();
+	assert(v==HER_TWO_PAIRS);
+}
 
 int main() {
 	someInitialHand();
@@ -152,6 +157,7 @@ int main() {
 	checkStraight();
 	checkStraight_river();
 	checkThreeOfAKind();
+	checkTwoPairs();
 
 	printf("Done\n");
 

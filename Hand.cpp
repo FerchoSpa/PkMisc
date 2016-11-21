@@ -13,6 +13,7 @@ Hand::Hand() {
 	}
 	nUnrepeatedCardsByRankValue=0;
 	countOfMostRepeatedCard=0;
+	numberOfMostRepeatedCards=0;
 }
 
 char* Hand::toString() {
@@ -201,13 +202,22 @@ bool Hand::isStraight() {
 bool Hand::isThreeOfAKind() {
 	return countOfMostRepeatedCard == 3;
 }
+
+bool Hand::isTwoPairs() {
+	return numberOfMostRepeatedCards>=2;
+}
 void Hand::populateMostRepeatedCardCount(){
-	countOfMostRepeatedCard = 1;
 	std::list<int>::iterator it;
+	countOfMostRepeatedCard = 1;
+	numberOfMostRepeatedCards += 1;
 	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
 		int ordinalRank = *it;
-		if (faceCountDict[ordinalRank]>countOfMostRepeatedCard)
+		if (faceCountDict[ordinalRank]>countOfMostRepeatedCard) {
 			countOfMostRepeatedCard = faceCountDict[ordinalRank];
+			numberOfMostRepeatedCards = 1;
+		} else if (faceCountDict[ordinalRank]==countOfMostRepeatedCard) {
+			numberOfMostRepeatedCards += 1;
+		}
 	}
 }
 
@@ -241,6 +251,9 @@ int Hand::evaluate() {
 	}
 	if (isThreeOfAKind()) {
 		return HER_THREE_OF_A_KIND;
+	}
+	if (isTwoPairs()) {
+		return HER_TWO_PAIRS;
 	}
 
 	return HER_NONE;
