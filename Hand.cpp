@@ -11,6 +11,8 @@ Hand::Hand() {
 	for (int i=0; i<13; i++){
 		faceCountDict[i] = 0;
 	}
+	nUnrepeatedCardsByRankValue=0;
+	countOfMostRepeatedCard=0;
 }
 
 char* Hand::toString() {
@@ -174,13 +176,7 @@ bool Hand::isStraightFlush(int suit){
 }
 
 bool Hand::isFourOfAKind(){
-	std::list<int>::iterator it;
-	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
-		int ordinalRank = *it;
-		if (faceCountDict[ordinalRank]==4)
-			return true;
-	}
-	return false;
+	return countOfMostRepeatedCard == 4;
 }
 
 bool Hand::isFullHouse(int suitWithMostCards) {
@@ -203,7 +199,16 @@ bool Hand::isStraight() {
 }
 
 bool Hand::isThreeOfAKind() {
-	return false;
+	return countOfMostRepeatedCard == 3;
+}
+void Hand::populateMostRepeatedCardCount(){
+	countOfMostRepeatedCard = 1;
+	std::list<int>::iterator it;
+	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
+		int ordinalRank = *it;
+		if (faceCountDict[ordinalRank]>countOfMostRepeatedCard)
+			countOfMostRepeatedCard = faceCountDict[ordinalRank];
+	}
 }
 
 int Hand::evaluate() {
@@ -221,6 +226,7 @@ int Hand::evaluate() {
 			return HER_STRAIGHT_FLUSH;
 		}
 	}
+	populateMostRepeatedCardCount();
 	if (isFourOfAKind()) {
 		return HER_FOUR_OF_A_KIND;
 	}
@@ -232,6 +238,9 @@ int Hand::evaluate() {
 	}
 	if (isStraight()) {
 		return HER_STRAIGHT;
+	}
+	if (isThreeOfAKind()) {
+		return HER_THREE_OF_A_KIND;
 	}
 
 	return HER_NONE;

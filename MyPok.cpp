@@ -126,6 +126,19 @@ void checkStraight() {
 	assert(v==HER_STRAIGHT);
 }
 
+void checkStraight_river() {
+	Hand* h = createHandWithFullBoard(C9S, C7S, C6H, C6D, C5D, C3C, C8C);
+	int v = h->evaluate();
+	assert(v==HER_STRAIGHT);
+}
+
+void checkThreeOfAKind() {
+	Hand* h = createHandWithFullBoard(C9S, C9H, CTH, C6D, C9D, C3C, C7C);
+	int v = h->evaluate();
+	assert(v==HER_THREE_OF_A_KIND);
+}
+
+
 int main() {
 	someInitialHand();
 	checkRoyalFlush_Spades();
@@ -137,6 +150,8 @@ int main() {
 	checkFullHouse();
 	checkFlush();
 	checkStraight();
+	checkStraight_river();
+	checkThreeOfAKind();
 
 	printf("Done\n");
 
