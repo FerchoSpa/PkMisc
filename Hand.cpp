@@ -261,7 +261,7 @@ int Hand::evaluate() {
 		return HER_TWO_PAIRS;
 	}
 	if (isPair()) {
-		return HER_TWO_PAIRS;
+		return HER_PAIR;
 	}
 
 	return HER_HIGH_CARD;
