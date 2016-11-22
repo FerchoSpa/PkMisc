@@ -204,8 +204,13 @@ bool Hand::isThreeOfAKind() {
 }
 
 bool Hand::isTwoPairs() {
-	return numberOfMostRepeatedCards>=2;
+	return countOfMostRepeatedCard == 2 && numberOfMostRepeatedCards>=2;
 }
+
+bool Hand::isPair() {
+	return countOfMostRepeatedCard == 2;
+}
+
 void Hand::populateMostRepeatedCardCount(){
 	std::list<int>::iterator it;
 	countOfMostRepeatedCard = 1;
@@ -255,6 +260,9 @@ int Hand::evaluate() {
 	if (isTwoPairs()) {
 		return HER_TWO_PAIRS;
 	}
+	if (isPair()) {
+		return HER_TWO_PAIRS;
+	}
 
-	return HER_NONE;
+	return HER_HIGH_CARD;
 }

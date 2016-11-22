@@ -144,6 +144,12 @@ void checkTwoPairs() {
 	assert(v==HER_TWO_PAIRS);
 }
 
+void checkPair() {
+	Hand* h = createHandWithFullBoard(C9S, C3H, CTH, CTD, C5D, C9C, C7C);
+	int v = h->evaluate();
+	assert(v==HER_TWO_PAIRS);
+}
+
 int main() {
 	someInitialHand();
 	checkRoyalFlush_Spades();
@@ -158,6 +164,7 @@ int main() {
 	checkStraight_river();
 	checkThreeOfAKind();
 	checkTwoPairs();
+	checkPair();
 
 	printf("Done\n");
 

@@ -29,7 +29,8 @@ enum HandEvalRank {
 	HER_FLUSH,
 	HER_STRAIGHT,
 	HER_THREE_OF_A_KIND,
-	HER_TWO_PAIRS
+	HER_TWO_PAIRS,
+	HER_HIGH_CARD
 };
 
 class Hand {
@@ -51,7 +52,7 @@ public:
 	Hand();
 	void accept(Card* c);
 	void removeLast();
-	int evaluate();
+	int  evaluate();
 
 	int* getSuitCount();
 	Card** getSortedCardsByNumericValue();
@@ -69,6 +70,7 @@ private:
 	bool isStraight();
 	bool isThreeOfAKind();
 	bool isTwoPairs();
+	bool isPair();
 	void populateMostRepeatedCardCount();
 };
 
