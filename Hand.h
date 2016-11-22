@@ -30,6 +30,7 @@ enum HandEvalRank {
 	HER_STRAIGHT,
 	HER_THREE_OF_A_KIND,
 	HER_TWO_PAIRS,
+	HER_PAIR,
 	HER_HIGH_CARD
 };
 
