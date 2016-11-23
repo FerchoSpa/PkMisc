@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 
-
 const char Card::strSuits[4] = {'H', 'D', 'S', 'C'};
 
 const int Card::strSymbolicRanks[] = { 'N', 'A', '2', '3', '4', '5', '6', '7',
