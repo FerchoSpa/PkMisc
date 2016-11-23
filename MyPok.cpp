@@ -151,12 +151,13 @@ void checkPair() {
 }
 
 void checkPair_TwoPair() {
-	Hand* h = createHandWithFullBoard(C9H, C3H, CTH, CTD, C5D, C9C, C7C);
+	Hand* h = createHandWithFullBoard(C9H, C3H, CTH, CKD, C5D, C9C, C7C);
 	int v = h->evaluate();
 	assert(v==HER_PAIR);
 
 	h->removeLast();
 	h->accept(new Card(C3S));
+	v = h->evaluate();
 	assert(v==HER_TWO_PAIRS);
 }
 
@@ -179,7 +180,55 @@ void checkOneLoopOfRemoveLast() {
 	for (int i = 0; i<10; i++) {
 		printf("count[%d] = %d\n", i, count[i]);
 	}
+}
 
+void checkLoopsOfRemoveLast() {
+	int count[10];
+	int v;
+	Hand* h = new Hand();
+	Card* cards[52];
+	for (int i=0; i<52; i++)
+		cards[i] = new Card(i);
+
+	bzero(count, sizeof(count));
+
+	int nc = 24; //23; //31;
+	int c1 = 0;
+	int c2 = 1;
+	h->accept(cards[c1]);
+	h->accept(cards[c2]);
+	for (int i=0; i< nc; i++){
+		if (i==c1 || i==c2) continue;
+		h->accept(cards[i]);
+		for (int j=i+1; j< nc; j++){
+			if (j==c1 || j==c2) continue;
+			h->accept(cards[j]);
+			for (int k=j+1; k< nc; k++){
+				if (k==c1 || k==c2) continue;
+				h->accept(cards[k]);
+				for (int l=k+1; l< nc; l++){
+					if (l==c1 || l==c2) continue;
+					h->accept(cards[l]);
+					for (int m=l+1; m< nc; m++){
+						if (m==c1 || m==c2) continue;
+						h->accept(cards[m]);
+						v = h->evaluate();
+						count[v] += 1;
+						h->removeLast();
+						//printf("%d,%d,%d,%d,%d - count[%d] = %d\n", i, j, k, l, m, v, count[v]);
+					}
+					h->removeLast();
+				}
+				h->removeLast();
+			}
+			h->removeLast();
+		}
+		h->removeLast();
+	}
+
+	for (int i = 0; i<10; i++) {
+		printf("...count[%d] = %d\n", i, count[i]);
+	}
 }
 
 int main() {
@@ -199,6 +248,7 @@ int main() {
 	checkPair();
 	checkPair_TwoPair();
 	checkOneLoopOfRemoveLast();
+	checkLoopsOfRemoveLast();
 
 	printf("Done\n");
 
