@@ -62,6 +62,7 @@ enum Suits {
 };
 
 class Card {
+
 	// Short visual representation of Suits:
 	//  - Heart, Diamond, Spade and Clubs
 	const static char strSuits[4];

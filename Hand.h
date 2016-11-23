@@ -16,7 +16,7 @@ enum RankValues {
 	VAL_STRAIGHT = 5,
 	VAL_THREE_OF_A_KIND = 6,
 	VAL_TWO_PAIR = 7,
-	VAL_PAIR  = 8,
+	VAL_PAIR = 8,
 	VAL_HIGH_CARD = 9
 };
 
