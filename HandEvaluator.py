@@ -25,7 +25,7 @@ class HandEvaluator:
     counters[he.HandEvaluation.PAIR]            = 0
     counters[he.HandEvaluation.HIGH_CARD]       = 0
   
-    nc = 52
+    nc = 24
     count = 0
 
     h = Hand.Hand(0)
