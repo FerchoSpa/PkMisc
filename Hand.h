@@ -42,6 +42,7 @@ class Hand {
 	std::list<int> faceCountsNonZero;
 	int countOfMostRepeatedCard; // Four of a kind, three of a kind, pair
 	int numberOfMostRepeatedCards;// 1 pair, 2 pairs, 3 pairs
+	int countOf2ndMostRepeatedCard; // Four of a kind, three of a kind, pair (for 2 pair)
 
 	Card* sortedCardsByNumericValue[7];
 
