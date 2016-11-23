@@ -51,7 +51,7 @@ void Hand::removeLast() {
 	if (faceCountDict[cardOrdinalRank] == 0){
 		faceCountsNonZero.remove(cardOrdinalRank);
 	}
-	//printf("removeLast:List size:%ld, card:%s\n", cardsInHand.size(), c->toString());
+	// printf("removeLast:List size:%ld, card:%s\n", cardsInHand.size(), c->toString());
 }
 
 void Hand::sortCardsByNumericValue() {
