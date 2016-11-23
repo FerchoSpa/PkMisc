@@ -144,6 +144,48 @@ void checkTwoPairs() {
 	assert(v==HER_TWO_PAIRS);
 }
 
+void checkPair() {
+	Hand* h = createHandWithFullBoard(C9S, C3H, CTH, CJD, C5D, C9C, C7C);
+	int v = h->evaluate();
+	assert(v==HER_PAIR);
+}
+
+
+void checkPair_TwoPair() {
+	Hand* h = createHandWithFullBoard(C9H, C3H, CTH, CTD, C5D, CKC, C7C);
+	int v = h->evaluate();
+	assert(v==HER_PAIR);
+
+
+	h->removeLast();
+	h->accept(new Card(C3S));
+	v=h->evaluate();
+	assert(v==HER_TWO_PAIRS);
+}
+
+
+void checkOneLoopOfRemoveLast() {
+	int count[10];
+	Hand* h = createHandWithFullBoard(C1H, C2H, C3H, C4H, C5H, C6H, C7H);
+	int v = h->evaluate();
+	assert(v==HER_STRAIGHT_FLUSH);
+
+	bzero(count, sizeof(count));
+	h->removeLast();
+	for (int i = 7; i<52; i++) {
+		h->accept(new Card(i));
+		v = h->evaluate();
+		//printf("\tv:%d\n", v);
+		count[v] += 1;
+		h->removeLast();
+	}
+	for (int i = 0; i<10; i++) {
+		printf("count[%d] = %d\n", i, count[i]);
+	}
+
+}
+
+
 int main() {
 	someInitialHand();
 	checkRoyalFlush_Spades();
@@ -158,8 +200,13 @@ int main() {
 	checkStraight_river();
 	checkThreeOfAKind();
 	checkTwoPairs();
+	checkPair();
+	checkPair_TwoPair();
+	checkOneLoopOfRemoveLast();
+
 
 	printf("Done\n");
+
 
 	return 0;
 }

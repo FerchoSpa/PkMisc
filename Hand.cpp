@@ -14,6 +14,7 @@ Hand::Hand() {
 	nUnrepeatedCardsByRankValue=0;
 	countOfMostRepeatedCard=0;
 	numberOfMostRepeatedCards=0;
+	countOf2ndMostRepeatedCard=0;
 }
 
 char* Hand::toString() {
@@ -50,7 +51,7 @@ void Hand::removeLast() {
 	if (faceCountDict[cardOrdinalRank] == 0){
 		faceCountsNonZero.remove(cardOrdinalRank);
 	}
-	printf("removeLast:List size:%ld, card:%s\n", cardsInHand.size(), c->toString());
+	//printf("removeLast:List size:%ld, card:%s\n", cardsInHand.size(), c->toString());
 }
 
 void Hand::sortCardsByNumericValue() {
@@ -181,8 +182,7 @@ bool Hand::isFourOfAKind(){
 }
 
 bool Hand::isFullHouse(int suitWithMostCards) {
-	int nextSuiteWithMostCards = getNextSuitWithMostCards(suitWithMostCards);
-	return suitCountDict[suitWithMostCards] == 3 && suitCountDict[nextSuiteWithMostCards] >= 2;
+	return countOfMostRepeatedCard == 3 && countOf2ndMostRepeatedCard >= 2;
 }
 
 bool Hand::isStraight() {
@@ -206,10 +206,16 @@ bool Hand::isThreeOfAKind() {
 bool Hand::isTwoPairs() {
 	return numberOfMostRepeatedCards>=2;
 }
+
+bool Hand::isPair() {
+	return countOfMostRepeatedCard == 2;
+}
+
 void Hand::populateMostRepeatedCardCount(){
 	std::list<int>::iterator it;
 	countOfMostRepeatedCard = 1;
 	numberOfMostRepeatedCards += 1;
+	int mostRepeatedCard = *(faceCountsNonZero.begin());
 	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
 		int ordinalRank = *it;
 		if (faceCountDict[ordinalRank]>countOfMostRepeatedCard) {
@@ -217,6 +223,12 @@ void Hand::populateMostRepeatedCardCount(){
 			numberOfMostRepeatedCards = 1;
 		} else if (faceCountDict[ordinalRank]==countOfMostRepeatedCard) {
 			numberOfMostRepeatedCards += 1;
+		}
+	}
+	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
+		int ordinalRank = *it;
+		if (mostRepeatedCard != ordinalRank && faceCountDict[ordinalRank]>countOf2ndMostRepeatedCard) {
+			countOf2ndMostRepeatedCard = faceCountDict[ordinalRank];
 		}
 	}
 }
@@ -254,6 +266,9 @@ int Hand::evaluate() {
 	}
 	if (isTwoPairs()) {
 		return HER_TWO_PAIRS;
+	}
+	if (isPair()) {
+		return HER_PAIR;
 	}
 
 	return HER_NONE;

@@ -29,7 +29,8 @@ enum HandEvalRank {
 	HER_FLUSH,
 	HER_STRAIGHT,
 	HER_THREE_OF_A_KIND,
-	HER_TWO_PAIRS
+	HER_TWO_PAIRS,
+	HER_PAIR
 };
 
 class Hand {
@@ -40,6 +41,7 @@ class Hand {
 	std::list<int> faceCountsNonZero;
 	int countOfMostRepeatedCard; // Four of a kind, three of a kind, pair
 	int numberOfMostRepeatedCards;// 1 pair, 2 pairs, 3 pairs
+	int countOf2ndMostRepeatedCard; // Four of a kind, three of a kind, pair (for 2 pair)
 
 	Card* sortedCardsByNumericValue[7];
 
@@ -69,6 +71,7 @@ private:
 	bool isStraight();
 	bool isThreeOfAKind();
 	bool isTwoPairs();
+	bool isPair();
 	void populateMostRepeatedCardCount();
 };
 
