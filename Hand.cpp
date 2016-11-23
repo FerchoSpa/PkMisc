@@ -204,7 +204,7 @@ bool Hand::isThreeOfAKind() {
 }
 
 bool Hand::isTwoPairs() {
-	return numberOfMostRepeatedCards>=2;
+	return countOfMostRepeatedCard == 2 && numberOfMostRepeatedCards>=2;
 }
 
 bool Hand::isPair() {
@@ -271,5 +271,5 @@ int Hand::evaluate() {
 		return HER_PAIR;
 	}
 
-	return HER_NONE;
+	return HER_HIGH_CARD;
 }

@@ -150,16 +150,13 @@ void checkPair() {
 	assert(v==HER_PAIR);
 }
 
-
 void checkPair_TwoPair() {
-	Hand* h = createHandWithFullBoard(C9H, C3H, CTH, CTD, C5D, CKC, C7C);
+	Hand* h = createHandWithFullBoard(C9H, C3H, CTH, CTD, C5D, C9C, C7C);
 	int v = h->evaluate();
 	assert(v==HER_PAIR);
 
-
 	h->removeLast();
 	h->accept(new Card(C3S));
-	v=h->evaluate();
 	assert(v==HER_TWO_PAIRS);
 }
 
@@ -185,7 +182,6 @@ void checkOneLoopOfRemoveLast() {
 
 }
 
-
 int main() {
 	someInitialHand();
 	checkRoyalFlush_Spades();
@@ -203,7 +199,6 @@ int main() {
 	checkPair();
 	checkPair_TwoPair();
 	checkOneLoopOfRemoveLast();
-
 
 	printf("Done\n");
 
