@@ -228,6 +228,7 @@ void Hand::populateMostRepeatedCardCount(){
 		if (faceCountDict[ordinalRank]>countOfMostRepeatedCard) {
 			countOfMostRepeatedCard = faceCountDict[ordinalRank];
 			numberOfMostRepeatedCards = 1;
+			mostRepeatedCard = ordinalRank;
 		} else if (faceCountDict[ordinalRank]==countOfMostRepeatedCard) {
 			numberOfMostRepeatedCards += 1;
 		}

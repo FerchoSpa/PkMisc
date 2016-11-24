@@ -25,7 +25,7 @@ class HandEvaluator:
     counters[he.HandEvaluation.PAIR]            = 0
     counters[he.HandEvaluation.HIGH_CARD]       = 0
   
-    nc = 24
+    nc = 52
     count = 0
 
     h = Hand.Hand(0)
@@ -53,6 +53,8 @@ class HandEvaluator:
   
               a, b = h.evaluate()
               counters[a] += 1
+              #if a==he.HandEvaluation.FULL_HOUSE:
+              #  print i, j, k, l, m
 
               h.removeLast()
             h.removeLast()

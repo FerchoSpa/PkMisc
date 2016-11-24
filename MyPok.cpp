@@ -186,6 +186,12 @@ void pythonFlush() {
 	assert(v==HER_FLUSH);
 }
 
+void pythonFlush27() {
+	//2 3 5 14 27
+	Hand* h = createHandWithFullBoard(C1H, C2H, C3H, C4H, C6H, C2D, C2S);
+	int v = h->evaluate();
+	assert(v==HER_FLUSH);
+}
 void checkOneLoopOfRemoveLast() {
 	int count[10];
 	Hand* h = createHandWithFullBoard(C1H, C2H, C3H, C4H, C5H, C6H, C7H);
@@ -216,7 +222,7 @@ void checkLoopsOfRemoveLast() {
 
 	bzero(count, sizeof(count));
 
-	int nc = 27;
+	int nc = 52;
 	int c1 = 0;
 	int c2 = 1;
 	h->accept(cards[c1]);
@@ -259,24 +265,25 @@ void checkLoopsOfRemoveLast() {
 }
 
 int main() {
-	pythonFlush();
-	pythonStraight();
-	someInitialHand();
-	checkRoyalFlush_Spades();
-	checkRoyalFlush_Clubs();
-	checkStraightFlush_5Diamonds();
-	checkStraightFlush_6Clubs();
-	checkStraightFlush_7Spades();
-	checkFourOfAKind();
-	checkFullHouse();
-	checkFlush();
-	checkStraight();
-	checkStraight_river();
-	checkThreeOfAKind();
-	checkTwoPairs();
-	checkPair();
-	checkPair_TwoPair();
-	checkOneLoopOfRemoveLast();
+//	pythonFlush27();
+//	pythonFlush();
+//	pythonStraight();
+//	someInitialHand();
+//	checkRoyalFlush_Spades();
+//	checkRoyalFlush_Clubs();
+//	checkStraightFlush_5Diamonds();
+//	checkStraightFlush_6Clubs();
+//	checkStraightFlush_7Spades();
+//	checkFourOfAKind();
+//	checkFullHouse();
+//	checkFlush();
+//	checkStraight();
+//	checkStraight_river();
+//	checkThreeOfAKind();
+//	checkTwoPairs();
+//	checkPair();
+//	checkPair_TwoPair();
+//	checkOneLoopOfRemoveLast();
 	checkLoopsOfRemoveLast();
 
 	printf("Done\n");
