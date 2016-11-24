@@ -225,6 +225,7 @@ void checkLoopsOfRemoveLast() {
 	int nc = 52;
 	int c1 = 0;
 	int c2 = 1;
+	int nHands = 0;
 	h->accept(cards[c1]);
 	h->accept(cards[c2]);
 	for (int i=0; i< nc; i++){
@@ -244,11 +245,8 @@ void checkLoopsOfRemoveLast() {
 						h->accept(cards[m]);
 						v = h->evaluate();
 						count[v] += 1;
-//						if (v==3){
-//							printf("%d %d %d %d %d\n", i, j, k, l, m);
-//						}
+						nHands += 1;
 						h->removeLast();
-						//printf("%d,%d,%d,%d,%d - count[%d] = %d\n", i, j, k, l, m, v, count[v]);
 					}
 					h->removeLast();
 				}
@@ -259,9 +257,20 @@ void checkLoopsOfRemoveLast() {
 		h->removeLast();
 	}
 
+	printf("Number of hands:%d\n", nHands);
 	for (int i = 0; i<10; i++) {
 		printf("...count[%d] = %d\n", i, count[i]);
 	}
+	assert(count[HER_ROYAL_FLUSH]     ==     49);
+	assert(count[HER_STRAIGHT_FLUSH]  ==   1113);
+	assert(count[HER_FOUR_OF_A_KIND]  ==   2668);
+	assert(count[HER_FULL_HOUSE]      ==  47124);
+	assert(count[HER_FLUSH]           == 138296);
+	assert(count[HER_STRAIGHT]        ==  65508);
+	assert(count[HER_THREE_OF_A_KIND] ==  92004);
+	assert(count[HER_TWO_PAIRS]       == 469092);
+	assert(count[HER_PAIR]            == 916776);
+	assert(count[HER_HIGH_CARD]       == 386130);
 }
 
 int main() {
