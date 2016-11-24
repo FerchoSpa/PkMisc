@@ -161,6 +161,30 @@ void checkPair_TwoPair() {
 	assert(v==HER_TWO_PAIRS);
 }
 
+void pythonStraight() {
+	Hand* h = createHandWithFullBoard(C1H, C2H, CQH, CKH, C1D, CTD, CJD);
+	int v = h->evaluate();
+	assert(v==HER_STRAIGHT);
+}
+
+void pythonFlush() {
+	//2 3 5 13 26
+	//Hand* h = createHandWithFullBoard(C1H, C2H, C3H, C4H, C6H, C1D, C1S);
+	Hand* h = new Hand();
+	h->accept(new Card(0));
+	h->accept(new Card(1));
+	h->accept(new Card(2));
+	h->accept(new Card(3));
+	h->accept(new Card(5));
+	h->accept(new Card(13));
+	h->accept(new Card(25));
+	int v = h->evaluate();
+	assert(v==HER_FLUSH);
+	h->removeLast();
+	h->accept(new Card(26));
+	v = h->evaluate();
+	assert(v==HER_FLUSH);
+}
 
 void checkOneLoopOfRemoveLast() {
 	int count[10];
@@ -192,7 +216,7 @@ void checkLoopsOfRemoveLast() {
 
 	bzero(count, sizeof(count));
 
-	int nc = 24; //23; //31;
+	int nc = 27;
 	int c1 = 0;
 	int c2 = 1;
 	h->accept(cards[c1]);
@@ -214,6 +238,9 @@ void checkLoopsOfRemoveLast() {
 						h->accept(cards[m]);
 						v = h->evaluate();
 						count[v] += 1;
+//						if (v==3){
+//							printf("%d %d %d %d %d\n", i, j, k, l, m);
+//						}
 						h->removeLast();
 						//printf("%d,%d,%d,%d,%d - count[%d] = %d\n", i, j, k, l, m, v, count[v]);
 					}
@@ -232,6 +259,8 @@ void checkLoopsOfRemoveLast() {
 }
 
 int main() {
+	pythonFlush();
+	pythonStraight();
 	someInitialHand();
 	checkRoyalFlush_Spades();
 	checkRoyalFlush_Clubs();

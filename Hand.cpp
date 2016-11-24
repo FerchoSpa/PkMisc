@@ -188,15 +188,21 @@ bool Hand::isFullHouse(int suitWithMostCards) {
 bool Hand::isStraight() {
 	if (nUnrepeatedCardsByRankValue<5)
 		return false;
-	if (sortedUnrepeatedCardsByRankValue[0]+4 == sortedUnrepeatedCardsByRankValue[4])
+	if ((sortedUnrepeatedCardsByRankValue[0]+4 == sortedUnrepeatedCardsByRankValue[4]) ||
+			(sortedUnrepeatedCardsByRankValue[0] == 1 && sortedUnrepeatedCardsByRankValue[1]+3 == sortedUnrepeatedCardsByRankValue[4] &&
+					sortedUnrepeatedCardsByRankValue[4]==13))
 		return true;
 	if (nUnrepeatedCardsByRankValue==5)
 		return false;
-	if (sortedUnrepeatedCardsByRankValue[1]+4 == sortedUnrepeatedCardsByRankValue[5])
+	if ((sortedUnrepeatedCardsByRankValue[1]+4 == sortedUnrepeatedCardsByRankValue[5]) ||
+			(sortedUnrepeatedCardsByRankValue[0] == 1 && sortedUnrepeatedCardsByRankValue[2]+3 == sortedUnrepeatedCardsByRankValue[5] &&
+					sortedUnrepeatedCardsByRankValue[5]==13))
 		return true;
 	if (nUnrepeatedCardsByRankValue==6)
 		return false;
-	return (sortedUnrepeatedCardsByRankValue[2]+4 == sortedUnrepeatedCardsByRankValue[6]);
+	return ((sortedUnrepeatedCardsByRankValue[2]+4 == sortedUnrepeatedCardsByRankValue[6]) ||
+			(sortedUnrepeatedCardsByRankValue[0] == 1 && sortedUnrepeatedCardsByRankValue[3]+3 == sortedUnrepeatedCardsByRankValue[6] &&
+								sortedUnrepeatedCardsByRankValue[6]==13));
 }
 
 bool Hand::isThreeOfAKind() {
@@ -213,7 +219,8 @@ bool Hand::isPair() {
 
 void Hand::populateMostRepeatedCardCount(){
 	std::list<int>::iterator it;
-	countOfMostRepeatedCard = 1;
+	countOfMostRepeatedCard = 0;
+	countOf2ndMostRepeatedCard = 0;
 	numberOfMostRepeatedCards += 1;
 	int mostRepeatedCard = *(faceCountsNonZero.begin());
 	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
