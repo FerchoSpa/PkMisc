@@ -219,7 +219,8 @@ bool Hand::isPair() {
 
 void Hand::populateMostRepeatedCardCount(){
 	std::list<int>::iterator it;
-	countOfMostRepeatedCard = 1;
+	countOfMostRepeatedCard = 0;
+	countOf2ndMostRepeatedCard = 0;
 	numberOfMostRepeatedCards += 1;
 	int mostRepeatedCard = *(faceCountsNonZero.begin());
 	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {

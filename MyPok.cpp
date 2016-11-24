@@ -167,6 +167,24 @@ void pythonStraight() {
 	assert(v==HER_STRAIGHT);
 }
 
+void pythonFlush() {
+	//2 3 5 13 26
+	//Hand* h = createHandWithFullBoard(C1H, C2H, C3H, C4H, C6H, C1D, C1S);
+	Hand* h = new Hand();
+	h->accept(new Card(0));
+	h->accept(new Card(1));
+	h->accept(new Card(2));
+	h->accept(new Card(3));
+	h->accept(new Card(5));
+	h->accept(new Card(13));
+	h->accept(new Card(25));
+	int v = h->evaluate();
+	assert(v==HER_FLUSH);
+	h->removeLast();
+	h->accept(new Card(26));
+	v = h->evaluate();
+	assert(v==HER_FLUSH);
+}
 
 void checkOneLoopOfRemoveLast() {
 	int count[10];
@@ -220,7 +238,7 @@ void checkLoopsOfRemoveLast() {
 						h->accept(cards[m]);
 						v = h->evaluate();
 						count[v] += 1;
-//						if (v==5){
+//						if (v==3){
 //							printf("%d %d %d %d %d\n", i, j, k, l, m);
 //						}
 						h->removeLast();
@@ -241,6 +259,7 @@ void checkLoopsOfRemoveLast() {
 }
 
 int main() {
+	pythonFlush();
 	pythonStraight();
 	someInitialHand();
 	checkRoyalFlush_Spades();
