@@ -20,15 +20,12 @@ void Table::addWholeCards(int c0, int c1) {
 	cardsInPlay[c1] = 1;
 }
 
-void Table::evaluate(){
+int* Table::evaluate(){
 
-
-	int count[10];
 	int v;
 	Card* cards[52];
 	for (int i=0; i<52; i++)
 		cards[i] = new Card(i);
-
 
 	bzero(count, sizeof(count));
 
@@ -53,7 +50,7 @@ void Table::evaluate(){
 						if (cardsInPlay[m]) continue;
 						h->accept(cards[m]);
 						v = h->evaluate();
-						count[v] += 1;
+						count[0][v] += 1;
 						nHands += 1;
 						h->removeLast();
 					}
@@ -68,7 +65,9 @@ void Table::evaluate(){
 
 	printf("Number of hands:%d\n", nHands);
 	for (int i = 0; i<10; i++) {
-		printf("...count[%d] = %d\n", i, count[i]);
+		printf("...count[%d] = %d\n", i, count[0][i]);
 	}
+
+	return count[0];
 
 }

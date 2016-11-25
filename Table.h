@@ -10,10 +10,12 @@ class Table {
 	Hand* playerHands[10];
 	int cardsInPlay[52];
 
+	int count[10][10];
+
 public:
 	Table();
 	void addWholeCards(int c0, int c1);
-	void evaluate();
+	int* evaluate();
 
 private:
 	//void populateMostRepeatedCardCount();

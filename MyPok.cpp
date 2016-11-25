@@ -275,9 +275,19 @@ void checkLoopsOfRemoveLast() {
 
 void checkTable1Player(){
 	Table* table = new Table();
-	table->addWholeCards(C1H, CKH);
+	table->addWholeCards(C1H, C2H);
 
-	table->evaluate();
+	int* count = table->evaluate();
+	assert(count[HER_ROYAL_FLUSH]     ==     49);
+	assert(count[HER_STRAIGHT_FLUSH]  ==   1113);
+	assert(count[HER_FOUR_OF_A_KIND]  ==   2668);
+	assert(count[HER_FULL_HOUSE]      ==  47124);
+	assert(count[HER_FLUSH]           == 138296);
+	assert(count[HER_STRAIGHT]        ==  65508);
+	assert(count[HER_THREE_OF_A_KIND] ==  92004);
+	assert(count[HER_TWO_PAIRS]       == 469092);
+	assert(count[HER_PAIR]            == 916776);
+	assert(count[HER_HIGH_CARD]       == 386130);
 
 }
 
