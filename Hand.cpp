@@ -241,6 +241,14 @@ void Hand::populateMostRepeatedCardCount(){
 	}
 }
 
+void Hand::showCards() {
+	printf("cardsInHand:%ld\n", cardsInHand.size());
+	std::list<Card*>::iterator it;
+	for (it=cardsInHand.begin(); it!=cardsInHand.end(); ++it) {
+		Card* card = *it;
+		printf("Card:%d\n", card->getNumericRank());
+	}
+}
 int Hand::evaluate() {
 	assert(cardsInHand.size() == 7);
 

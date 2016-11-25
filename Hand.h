@@ -46,6 +46,7 @@ public:
 	Card** getSortedCardsByNumericValue();
 
 	char* toString();
+	void showCards();
 
 private:
 	void sortCardsByNumericValue();

@@ -3,7 +3,7 @@
 // 0 1 2 3 4 5 6 7 8 9 0 1 2 (A-K H)
 #include "Card.h"
 #include "Hand.h"
-//#include "BoardsBuilder.h"
+#include "Table.h"
 
 Hand* createHandWithFullBoard(int a, int b, int c, int d, int e, int f, int g) {
 	Card* c1 = new Card(a);
@@ -273,6 +273,14 @@ void checkLoopsOfRemoveLast() {
 	assert(count[HER_HIGH_CARD]       == 386130);
 }
 
+void checkTable1Player(){
+	Table* table = new Table();
+	table->addWholeCards(C1H, CKH);
+
+	table->evaluate();
+
+}
+
 int main() {
 //	pythonFlush27();
 //	pythonFlush();
@@ -293,7 +301,8 @@ int main() {
 //	checkPair();
 //	checkPair_TwoPair();
 //	checkOneLoopOfRemoveLast();
-	checkLoopsOfRemoveLast();
+//	checkLoopsOfRemoveLast();
+	checkTable1Player();
 
 	printf("Done\n");
 
