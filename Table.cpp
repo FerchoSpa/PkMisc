@@ -20,9 +20,28 @@ void Table::addWholeCards(int c0, int c1) {
 	cardsInPlay[c1] = 1;
 }
 
-int* Table::evaluate(){
 
+void Table::addBoardCard(Card* card) {
+	for (int i=0; i<this->nPlayers; i++){
+		this->playerHands[i]->accept(card);
+	}
+}
+
+void Table::removeLast() {
+	for (int i=0; i<this->nPlayers; i++){
+		this->playerHands[i]->removeLast();
+	}
+}
+
+void Table::evaluateHandsWithBoard(){
 	int v;
+	for (int i=0; i<this->nPlayers; i++){
+		v = this->playerHands[i]->evaluate();
+		count[i][v] += 1;
+	}
+}
+
+void Table::evaluate(){
 	Card* cards[52];
 	for (int i=0; i<52; i++)
 		cards[i] = new Card(i);
@@ -33,41 +52,40 @@ int* Table::evaluate(){
 
 	int nHands = 0;
 
-	Hand* h = playerHands[0];
 	for (int i=0; i< nc; i++){
 		if (cardsInPlay[i]) continue;
-		h->accept(cards[i]);
+		addBoardCard(cards[i]);
 		for (int j=i+1; j< nc; j++){
 			if (cardsInPlay[j]) continue;
-			h->accept(cards[j]);
+			addBoardCard(cards[j]);
 			for (int k=j+1; k< nc; k++){
 				if (cardsInPlay[k]) continue;
-				h->accept(cards[k]);
+				addBoardCard(cards[k]);
 				for (int l=k+1; l< nc; l++){
 					if (cardsInPlay[l]) continue;
-					h->accept(cards[l]);
+					addBoardCard(cards[l]);
 					for (int m=l+1; m< nc; m++){
 						if (cardsInPlay[m]) continue;
-						h->accept(cards[m]);
-						v = h->evaluate();
-						count[0][v] += 1;
+						addBoardCard(cards[m]);
+						evaluateHandsWithBoard();
 						nHands += 1;
-						h->removeLast();
+						removeLast();
 					}
-					h->removeLast();
+					removeLast();
 				}
-				h->removeLast();
+				removeLast();
 			}
-			h->removeLast();
+			removeLast();
 		}
-		h->removeLast();
+		removeLast();
 	}
 
 	printf("Number of hands:%d\n", nHands);
 	for (int i = 0; i<10; i++) {
 		printf("...count[%d] = %d\n", i, count[0][i]);
 	}
+}
 
-	return count[0];
-
+int Table::getCount(int player, int countId){
+	return count[player][countId];
 }

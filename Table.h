@@ -15,10 +15,13 @@ class Table {
 public:
 	Table();
 	void addWholeCards(int c0, int c1);
-	int* evaluate();
+	void evaluate();
+	int  getCount(int player, int countId);
 
 private:
-	//void populateMostRepeatedCardCount();
+	void addBoardCard(Card* card);
+	void removeLast();
+	void evaluateHandsWithBoard();
 };
 
 #endif
