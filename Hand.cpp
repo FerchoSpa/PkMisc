@@ -15,6 +15,8 @@ Hand::Hand() {
 	countOfMostRepeatedCard=0;
 	numberOfMostRepeatedCards=0;
 	countOf2ndMostRepeatedCard=0;
+	nCardsOnStraightFlush=0;
+	bzero(cardsOnStraightFlush, sizeof(cardsOnStraightFlush));
 }
 
 char* Hand::toString() {
@@ -152,10 +154,11 @@ bool Hand::isRoyalFlush(int suit){
 			cardsOnRoyalFlush[3]->ordinalRank == 11 &&
 			cardsOnRoyalFlush[4]->ordinalRank == 12;
 }
-
+int Hand::getHighCardOnStraightFlush(){
+	return cardsOnStraightFlush[nCardsOnStraightFlush-1]->ordinalRank;
+}
 bool Hand::isStraightFlush(int suit){
-	Card* cardsOnStraightFlush[7];
-	int nCardsOnStraightFlush = 0;
+	nCardsOnStraightFlush = 0;
 	int n = cardsInHand.size();
 	for (int i = 0; i<n; i++) {
 		Card* card = sortedCardsByNumericValue[i];

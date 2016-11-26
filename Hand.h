@@ -32,6 +32,9 @@ class Hand {
 
 	Card* sortedCardsByNumericValue[7];
 
+	int nCardsOnStraightFlush;
+	Card* cardsOnStraightFlush[7];
+
 	int   nUnrepeatedCardsByRankValue;
 	int   sortedUnrepeatedCardsByRankValue[7];
 
@@ -48,6 +51,8 @@ public:
 	char* toString();
 	void showCards();
 
+	int getHighCardOnStraightFlush();
+
 private:
 	void sortCardsByNumericValue();
 	int  getSuitWithMostCards();
@@ -61,6 +66,7 @@ private:
 	bool isTwoPairs();
 	bool isPair();
 	void populateMostRepeatedCardCount();
+
 };
 
 #endif

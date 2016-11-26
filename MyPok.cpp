@@ -50,6 +50,7 @@ void someInitialHand() {
 //	}
 
 	h->removeLast();
+	printf("someInitialHand PASSED\n");
 }
 
 void checkRoyalFlush_Spades() {
@@ -64,6 +65,7 @@ void checkRoyalFlush_Spades() {
 
 	int v = h->evaluate();
 	assert(v==HER_ROYAL_FLUSH);
+	printf("checkRoyalFlush_Spades PASSED\n");
 }
 
 void checkRoyalFlush_Clubs() {
@@ -77,6 +79,7 @@ void checkRoyalFlush_Clubs() {
 
 	int v = h->evaluate();
 	assert(v==HER_ROYAL_FLUSH);
+	printf("checkRoyalFlush_Clubs PASSED\n");
 }
 
 void checkStraightFlush_5Diamonds() {
@@ -84,6 +87,7 @@ void checkStraightFlush_5Diamonds() {
 
 	int v = h->evaluate();
 	assert(v==HER_STRAIGHT_FLUSH);
+	printf("checkStraightFlush_5Diamonds PASSED\n");
 }
 
 void checkStraightFlush_6Clubs() {
@@ -91,6 +95,7 @@ void checkStraightFlush_6Clubs() {
 
 	int v = h->evaluate();
 	assert(v==HER_STRAIGHT_FLUSH);
+	printf("checkStraightFlush_6Clubs PASSED\n");
 }
 
 void checkStraightFlush_7Spades() {
@@ -98,6 +103,7 @@ void checkStraightFlush_7Spades() {
 
 	int v = h->evaluate();
 	assert(v==HER_STRAIGHT_FLUSH);
+	printf("checkStraightFlush_7Spades PASSED\n");
 }
 
 void checkFourOfAKind() {
@@ -105,6 +111,7 @@ void checkFourOfAKind() {
 
 	int v = h->evaluate();
 	assert(v==HER_FOUR_OF_A_KIND);
+	printf("checkFourOfAKind PASSED\n");
 }
 
 void checkFullHouse() {
@@ -112,30 +119,35 @@ void checkFullHouse() {
 
 	int v = h->evaluate();
 	assert(v==HER_FULL_HOUSE);
+	printf("checkFullHouse PASSED\n");
 }
 
 void checkFlush() {
 	Hand* h = createHandWithFullBoard(C2S, C9S, C5S, C6D, C4S, CJS, C7C);
 	int v = h->evaluate();
 	assert(v==HER_FLUSH);
+	printf("checkFlush PASSED\n");
 }
 
 void checkStraight() {
 	Hand* h = createHandWithFullBoard(C2S, C9S, C5H, C6D, C4D, C3C, C2C);
 	int v = h->evaluate();
 	assert(v==HER_STRAIGHT);
+	printf("checkStraight PASSED\n");
 }
 
 void checkStraight_river() {
 	Hand* h = createHandWithFullBoard(C9S, C7S, C6H, C6D, C5D, C3C, C8C);
 	int v = h->evaluate();
 	assert(v==HER_STRAIGHT);
+	printf("checkStraight_river PASSED\n");
 }
 
 void checkThreeOfAKind() {
 	Hand* h = createHandWithFullBoard(C9S, C9H, CTH, C6D, C9D, C3C, C7C);
 	int v = h->evaluate();
 	assert(v==HER_THREE_OF_A_KIND);
+	printf("checkThreeOfAKind PASSED\n");
 }
 
 void checkTwoPairs() {
@@ -148,6 +160,7 @@ void checkPair() {
 	Hand* h = createHandWithFullBoard(C9S, C3H, CTH, CJD, C5D, C9C, C7C);
 	int v = h->evaluate();
 	assert(v==HER_PAIR);
+	printf("checkPair PASSED\n");
 }
 
 void checkPair_TwoPair() {
@@ -159,12 +172,14 @@ void checkPair_TwoPair() {
 	h->accept(new Card(C3S));
 	v = h->evaluate();
 	assert(v==HER_TWO_PAIRS);
+	printf("checkPair_TwoPair PASSED\n");
 }
 
 void pythonStraight() {
 	Hand* h = createHandWithFullBoard(C1H, C2H, CQH, CKH, C1D, CTD, CJD);
 	int v = h->evaluate();
 	assert(v==HER_STRAIGHT);
+	printf("pythonStraight PASSED\n");
 }
 
 void pythonFlush() {
@@ -184,6 +199,7 @@ void pythonFlush() {
 	h->accept(new Card(26));
 	v = h->evaluate();
 	assert(v==HER_FLUSH);
+	printf("pythonFlush PASSED\n");
 }
 
 void pythonFlush27() {
@@ -191,7 +207,9 @@ void pythonFlush27() {
 	Hand* h = createHandWithFullBoard(C1H, C2H, C3H, C4H, C6H, C2D, C2S);
 	int v = h->evaluate();
 	assert(v==HER_FLUSH);
+	printf("pythonFlush27 PASSED\n");
 }
+
 void checkOneLoopOfRemoveLast() {
 	int count[10];
 	Hand* h = createHandWithFullBoard(C1H, C2H, C3H, C4H, C5H, C6H, C7H);
@@ -210,6 +228,7 @@ void checkOneLoopOfRemoveLast() {
 	for (int i = 0; i<10; i++) {
 		printf("count[%d] = %d\n", i, count[i]);
 	}
+	printf("checkOneLoopOfRemoveLast PASSED\n");
 }
 
 void checkLoopsOfRemoveLast() {
@@ -258,9 +277,7 @@ void checkLoopsOfRemoveLast() {
 	}
 
 	printf("Number of hands:%d\n", nHands);
-	for (int i = 0; i<10; i++) {
-		printf("...count[%d] = %d\n", i, count[i]);
-	}
+
 	assert(count[HER_ROYAL_FLUSH]     ==     49);
 	assert(count[HER_STRAIGHT_FLUSH]  ==   1113);
 	assert(count[HER_FOUR_OF_A_KIND]  ==   2668);
@@ -271,6 +288,7 @@ void checkLoopsOfRemoveLast() {
 	assert(count[HER_TWO_PAIRS]       == 469092);
 	assert(count[HER_PAIR]            == 916776);
 	assert(count[HER_HIGH_CARD]       == 386130);
+	printf("checkLoopsOfRemoveLast PASSED\n");
 }
 
 void checkTable1Player(){
@@ -288,6 +306,89 @@ void checkTable1Player(){
 	assert(table->getCount(0, HER_TWO_PAIRS)       == 469092);
 	assert(table->getCount(0, HER_PAIR)            == 916776);
 	assert(table->getCount(0, HER_HIGH_CARD)       == 386130);
+	printf("checkTable1Player PASSED\n");
+}
+
+void checkTable2Players(){
+	Table* table = new Table();
+	table->addWholeCards(C1H, C2H);
+	table->addWholeCards(C1D, C2D);
+
+	table->evaluate();
+	for (int j=0; j<2; j++){
+		for (int i=0; i<TER_UNDECIDED+1; i++){
+			printf("Player%d: count[%d]:%d\n", j, j, table->getCount(j, i));
+		}
+		printf("\n");
+	}
+	for (int j=0; j<2; j++){
+		assert(table->getCount(j, HER_ROYAL_FLUSH)     ==     46);
+		assert(table->getCount(j, HER_STRAIGHT_FLUSH)  ==   1020);
+		assert(table->getCount(j, HER_FOUR_OF_A_KIND)  ==    484);
+		assert(table->getCount(j, HER_FULL_HOUSE)      ==  19052);
+		assert(table->getCount(j, HER_FLUSH)           == 124532);
+		assert(table->getCount(j, HER_STRAIGHT)        ==  60028);
+		assert(table->getCount(j, HER_THREE_OF_A_KIND) ==  50676);
+		assert(table->getCount(j, HER_TWO_PAIRS)       == 308924);
+		assert(table->getCount(j, HER_PAIR)            == 761412);
+		assert(table->getCount(j, HER_HIGH_CARD)       == 386130);
+	}
+	printf("checkTable2Players PASSED\n");
+}
+
+void checkStraightFlushCompareH1gtH2(){
+	int v;
+	Table* t = new Table();
+	Hand* h1 = createHandWithFullBoard(C6H, C9H, CTH, C8H, C5C, C6C, C7H);
+	Hand* h2 = createHandWithFullBoard(C3D, C5D, C6D, C4D, CTH, CTC, C7D);
+	v = h1->evaluate();
+	assert(v==HER_STRAIGHT_FLUSH);
+	v = h2->evaluate();
+	assert(v==HER_STRAIGHT_FLUSH);
+	//v = t->compareStraightFlush(h1, h2);
+	//assert(v==1);
+	//printf("checkStraightFlushCompareH1gtH2 PASSED\n");
+}
+
+void checkStraightFlushCompareH1eqH2(){
+	int v;
+	Table* t = new Table();
+	Hand* h1 = createHandWithFullBoard(C6H, C9H, CJS, C8S, CTS, C9S, CQS);
+	Hand* h2 = createHandWithFullBoard(C3D, C5D, CJS, C8S, CTS, C9S, CQS);
+	v = h1->evaluate();
+	assert(v==HER_STRAIGHT_FLUSH);
+	v = h2->evaluate();
+	assert(v==HER_STRAIGHT_FLUSH);
+	//v = t->compareStraightFlush(h1, h2);
+	//assert(v==0);
+	//printf("checkStraightFlushCompareH1eqH2 PASSED\n");
+}
+
+void checkAKvsTT(){
+	Table* table = new Table();
+	table->addWholeCards(C1H, CKH);
+	table->addWholeCards(CTC, CTS);
+
+	table->evaluate();
+	for (int j=0; j<2; j++){
+		for (int i=0; i<TER_UNDECIDED+1; i++){
+			printf("Player%d: count[%d]:%d (%2.02f%%)\n", j, i, table->getCount(j, i), (100.0*table->getCount(j, i))/1712304.0);
+		}
+		printf("\n");
+	}
+//	for (int j=0; j<2; j++){
+//		assert(table->getCount(j, HER_ROYAL_FLUSH)     ==     46);
+//		assert(table->getCount(j, HER_STRAIGHT_FLUSH)  ==   1020);
+//		assert(table->getCount(j, HER_FOUR_OF_A_KIND)  ==    484);
+//		assert(table->getCount(j, HER_FULL_HOUSE)      ==  19052);
+//		assert(table->getCount(j, HER_FLUSH)           == 124532);
+//		assert(table->getCount(j, HER_STRAIGHT)        ==  60028);
+//		assert(table->getCount(j, HER_THREE_OF_A_KIND) ==  50676);
+//		assert(table->getCount(j, HER_TWO_PAIRS)       == 308924);
+//		assert(table->getCount(j, HER_PAIR)            == 761412);
+//		assert(table->getCount(j, HER_HIGH_CARD)       == 386130);
+//	}
+	printf("checkTable2Players PASSED\n");
 }
 
 int main() {
@@ -311,7 +412,11 @@ int main() {
 //	checkPair_TwoPair();
 //	checkOneLoopOfRemoveLast();
 //	checkLoopsOfRemoveLast();
-	checkTable1Player();
+//	checkTable1Player();
+//	checkTable2Players();
+//	checkStraightFlushCompareH1gtH2();
+//	checkStraightFlushCompareH1eqH2();
+	checkAKvsTT();
 
 	printf("Done\n");
 

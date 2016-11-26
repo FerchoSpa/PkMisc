@@ -13,7 +13,6 @@ void Table::addWholeCards(int c0, int c1) {
 	h = new Hand();
 	h->accept(new Card(c0));
 	h->accept(new Card(c1));
-	h->showCards();
 	playerHands[nPlayers] = h;
 	nPlayers += 1;
 	cardsInPlay[c0] = 1;
@@ -35,10 +34,38 @@ void Table::removeLast() {
 
 void Table::evaluateHandsWithBoard(){
 	int v;
-	for (int i=0; i<this->nPlayers; i++){
-		v = this->playerHands[i]->evaluate();
+	for (int i=0; i<nPlayers; i++){
+		v = playerHands[i]->evaluate();
 		count[i][v] += 1;
+		handResults[i] = v;
 	}
+	// Evaluate only player 0 and 1
+	if (handResults[0]<handResults[1]){
+		count[0][TER_WIN]  += 1;
+		count[1][TER_LOSE] += 1;
+	} else if (handResults[1]<handResults[0]){
+		count[1][TER_WIN]  += 1;
+		count[0][TER_LOSE] += 1;
+	} else {
+		if (handResults[0] == HER_STRAIGHT_FLUSH){
+			int v1 = playerHands[0]->getHighCardOnStraightFlush();
+			int v2 = playerHands[1]->getHighCardOnStraightFlush();
+			if (v1 == v2) {
+				count[0][TER_TIE]  += 1;
+				count[1][TER_TIE] += 1;
+			} else if (v1>v2) {
+				count[0][TER_WIN]  += 1;
+				count[1][TER_LOSE] += 1;
+			} else {
+				count[1][TER_WIN]  += 1;
+				count[0][TER_LOSE] += 1;
+			}
+		} else {
+			count[0][TER_UNDECIDED]  += 1;
+			count[1][TER_UNDECIDED]  += 1;
+		}
+	}
+
 }
 
 void Table::evaluate(){
@@ -79,11 +106,7 @@ void Table::evaluate(){
 		}
 		removeLast();
 	}
-
 	printf("Number of hands:%d\n", nHands);
-	for (int i = 0; i<10; i++) {
-		printf("...count[%d] = %d\n", i, count[0][i]);
-	}
 }
 
 int Table::getCount(int player, int countId){
