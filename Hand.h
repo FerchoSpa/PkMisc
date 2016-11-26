@@ -26,6 +26,7 @@ class Hand {
 	std::list<Card*> cardsInHand;
 
 	std::list<int> faceCountsNonZero;
+	int mostRepeatedCard;
 	int countOfMostRepeatedCard; // Four of a kind, three of a kind, pair
 	int numberOfMostRepeatedCards;// 1 pair, 2 pairs, 3 pairs
 	int countOf2ndMostRepeatedCard; // Four of a kind, three of a kind, pair (for 2 pair)
@@ -37,6 +38,7 @@ class Hand {
 
 	int   nUnrepeatedCardsByRankValue;
 	int   sortedUnrepeatedCardsByRankValue[7];
+	Card* cardsByRank[7];
 
 	char _toStringStr[TO_STRING_STR_LEN];
 public:
@@ -52,6 +54,8 @@ public:
 	void showCards();
 
 	int getHighCardOnStraightFlush();
+	int getMostRepeatedCard();
+	Card* getHighCardInReverseOrder(int minusOrder); // 0, -1, -2, => Last, previousToLast, previous to PreviousLast
 
 private:
 	void sortCardsByNumericValue();

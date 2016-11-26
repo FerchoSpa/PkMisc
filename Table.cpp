@@ -51,7 +51,7 @@ void Table::evaluateHandsWithBoard(){
 			int v1 = playerHands[0]->getHighCardOnStraightFlush();
 			int v2 = playerHands[1]->getHighCardOnStraightFlush();
 			if (v1 == v2) {
-				count[0][TER_TIE]  += 1;
+				count[0][TER_TIE] += 1;
 				count[1][TER_TIE] += 1;
 			} else if (v1>v2) {
 				count[0][TER_WIN]  += 1;
@@ -59,6 +59,21 @@ void Table::evaluateHandsWithBoard(){
 			} else {
 				count[1][TER_WIN]  += 1;
 				count[0][TER_LOSE] += 1;
+			}
+		} else if(handResults[0] == HER_FOUR_OF_A_KIND) {
+			int c1 = playerHands[0]->getMostRepeatedCard();
+			int c2 = playerHands[1]->getMostRepeatedCard();
+			Card* hc1 = playerHands[0]->getHighCardInReverseOrder(0);
+			Card* hc2 = playerHands[1]->getHighCardInReverseOrder(0);
+			if (c1>c2 || (c1==c2 && hc1->getNumericRank()>hc2->getNumericRank())) {
+				count[0][TER_WIN]  += 1;
+				count[1][TER_LOSE] += 1;
+			} else if (c2>c1 || (c1==c2 && hc2->getNumericRank()>hc1->getNumericRank())) {
+				count[1][TER_WIN]  += 1;
+				count[0][TER_LOSE] += 1;
+			} else {
+				count[0][TER_TIE] += 1;
+				count[1][TER_TIE] += 1;
 			}
 		} else {
 			count[0][TER_UNDECIDED]  += 1;

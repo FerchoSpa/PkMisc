@@ -17,6 +17,7 @@ Hand::Hand() {
 	countOf2ndMostRepeatedCard=0;
 	nCardsOnStraightFlush=0;
 	bzero(cardsOnStraightFlush, sizeof(cardsOnStraightFlush));
+	mostRepeatedCard = -1;
 }
 
 char* Hand::toString() {
@@ -57,7 +58,6 @@ void Hand::removeLast() {
 }
 
 void Hand::sortCardsByNumericValue() {
-	Card* cardsByRank[7];
 	bzero(sortedCardsByNumericValue, 7*sizeof(Card*));
 	bzero(cardsByRank, 7*sizeof(Card*));
 	std::list<Card*>::iterator it;
@@ -108,6 +108,10 @@ void Hand::sortCardsByNumericValue() {
 	}
 }
 
+int Hand::getMostRepeatedCard() {
+	return mostRepeatedCard;
+}
+
 int Hand::getSuitWithMostCards() {
 	int idx = 0;
 	int max = suitCountDict[0];
@@ -154,9 +158,15 @@ bool Hand::isRoyalFlush(int suit){
 			cardsOnRoyalFlush[3]->ordinalRank == 11 &&
 			cardsOnRoyalFlush[4]->ordinalRank == 12;
 }
+
 int Hand::getHighCardOnStraightFlush(){
 	return cardsOnStraightFlush[nCardsOnStraightFlush-1]->ordinalRank;
 }
+
+Card* Hand::getHighCardInReverseOrder(int minusOrder){
+	return cardsByRank[cardsInHand.size()-1-minusOrder];
+}
+
 bool Hand::isStraightFlush(int suit){
 	nCardsOnStraightFlush = 0;
 	int n = cardsInHand.size();
@@ -225,7 +235,7 @@ void Hand::populateMostRepeatedCardCount(){
 	countOfMostRepeatedCard = 0;
 	countOf2ndMostRepeatedCard = 0;
 	numberOfMostRepeatedCards += 1;
-	int mostRepeatedCard = *(faceCountsNonZero.begin());
+	mostRepeatedCard = *(faceCountsNonZero.begin());
 	for (it=faceCountsNonZero.begin(); it!=faceCountsNonZero.end(); ++it) {
 		int ordinalRank = *it;
 		if (faceCountDict[ordinalRank]>countOfMostRepeatedCard) {

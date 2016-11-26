@@ -26,10 +26,11 @@ public:
 	void evaluate();
 	int  getCount(int player, int countId);
 
-private:
 	void addBoardCard(Card* card);
-	void removeLast();
 	void evaluateHandsWithBoard();
+
+private:
+	void removeLast();
 };
 
 #endif
