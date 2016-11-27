@@ -486,6 +486,56 @@ void check4ofAKindCompareH1etH2_hand(){
 	printf("check4ofAKindCompareH1etH2_hand PASSED\n");
 }
 
+void checkFullHousCompareH1etH2(){
+	Table* t = new Table();
+	t->addWholeCards(CKH, CKC);
+	t->addWholeCards(C9S, C9D);
+
+	t->addBoardCard(new Card(CKS));
+	t->addBoardCard(new Card(C9C));
+	t->addBoardCard(new Card(CTC));
+	t->addBoardCard(new Card(CTH));
+	t->addBoardCard(new Card(C1S));
+
+	t->evaluateHandsWithBoard();
+	assert(t->getCount(0, HER_FULL_HOUSE)==1);
+	assert(t->getCount(1, HER_FULL_HOUSE)==1);
+	assert(t->getCount(0, TER_TIE)==0);
+	assert(t->getCount(1, TER_TIE)==0);
+	assert(t->getCount(0, TER_WIN)==1);
+	assert(t->getCount(1, TER_WIN)==0);
+	assert(t->getCount(0, TER_LOSE)==0);
+	assert(t->getCount(1, TER_LOSE)==1);
+	assert(t->getCount(0, TER_UNDECIDED)==0);
+	assert(t->getCount(1, TER_UNDECIDED)==0);
+	printf("checkFullHousCompareH1etH2 PASSED\n");
+}
+
+void checkFullHousCompareH1etH2_2nd(){
+	Table* t = new Table();
+	t->addWholeCards(CJH, CQD);
+	t->addWholeCards(CJS, CTC);
+
+	t->addBoardCard(new Card(CJC));
+	t->addBoardCard(new Card(CJD));
+	t->addBoardCard(new Card(CTS));
+	t->addBoardCard(new Card(CQH));
+	t->addBoardCard(new Card(C1S));
+
+	t->evaluateHandsWithBoard();
+	assert(t->getCount(0, HER_FULL_HOUSE)==1);
+	assert(t->getCount(1, HER_FULL_HOUSE)==1);
+	assert(t->getCount(0, TER_TIE)==0);
+	assert(t->getCount(1, TER_TIE)==0);
+	assert(t->getCount(0, TER_WIN)==1);
+	assert(t->getCount(1, TER_WIN)==0);
+	assert(t->getCount(0, TER_LOSE)==0);
+	assert(t->getCount(1, TER_LOSE)==1);
+	assert(t->getCount(0, TER_UNDECIDED)==0);
+	assert(t->getCount(1, TER_UNDECIDED)==0);
+	printf("checkFullHousCompareH1etH2_2nd PASSED\n");
+}
+
 void checkAKvsTT(){
 	Table* table = new Table();
 	table->addWholeCards(C1H, CKH);
@@ -542,6 +592,8 @@ int main() {
 //	check4ofAKindCompareH1gtH2_hc();
 //	check4ofAKindCompareH1etH2();
 //	check4ofAKindCompareH1etH2_hand();
+//	checkFullHousCompareH1etH2();
+//	checkFullHousCompareH1etH2_2nd();
 	checkAKvsTT();
 
 	printf("Done\n");

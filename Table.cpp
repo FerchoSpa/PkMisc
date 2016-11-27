@@ -75,6 +75,21 @@ void Table::evaluateHandsWithBoard(){
 				count[0][TER_TIE] += 1;
 				count[1][TER_TIE] += 1;
 			}
+		} else if(handResults[0] == HER_FULL_HOUSE) {
+			int c1 = playerHands[0]->getMostRepeatedCard();
+			int c2 = playerHands[1]->getMostRepeatedCard();
+			int d1 = playerHands[0]->get2ndMostRepeatedCard();
+			int d2 = playerHands[1]->get2ndMostRepeatedCard();
+			if (c1>c2 || (c1==c2 && d1>d2)) {
+				count[0][TER_WIN]  += 1;
+				count[1][TER_LOSE] += 1;
+			} else if (c2>c1 || (c1==c2 && d2>d1)) {
+				count[1][TER_WIN]  += 1;
+				count[0][TER_LOSE] += 1;
+			} else {
+				count[0][TER_TIE] += 1;
+				count[1][TER_TIE] += 1;
+			}
 		} else {
 			count[0][TER_UNDECIDED]  += 1;
 			count[1][TER_UNDECIDED]  += 1;

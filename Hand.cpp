@@ -18,6 +18,7 @@ Hand::Hand() {
 	nCardsOnStraightFlush=0;
 	bzero(cardsOnStraightFlush, sizeof(cardsOnStraightFlush));
 	mostRepeatedCard = -1;
+	mostRepeatedCard2nd = -1;
 }
 
 char* Hand::toString() {
@@ -110,6 +111,10 @@ void Hand::sortCardsByNumericValue() {
 
 int Hand::getMostRepeatedCard() {
 	return mostRepeatedCard;
+}
+
+int Hand::get2ndMostRepeatedCard() {
+	return mostRepeatedCard2nd;
 }
 
 int Hand::getSuitWithMostCards() {
@@ -250,6 +255,7 @@ void Hand::populateMostRepeatedCardCount(){
 		int ordinalRank = *it;
 		if (mostRepeatedCard != ordinalRank && faceCountDict[ordinalRank]>countOf2ndMostRepeatedCard) {
 			countOf2ndMostRepeatedCard = faceCountDict[ordinalRank];
+			mostRepeatedCard2nd = ordinalRank;
 		}
 	}
 }

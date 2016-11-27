@@ -30,6 +30,7 @@ class Hand {
 	int countOfMostRepeatedCard; // Four of a kind, three of a kind, pair
 	int numberOfMostRepeatedCards;// 1 pair, 2 pairs, 3 pairs
 	int countOf2ndMostRepeatedCard; // Four of a kind, three of a kind, pair (for 2 pair)
+	int mostRepeatedCard2nd;
 
 	Card* sortedCardsByNumericValue[7];
 
@@ -55,6 +56,7 @@ public:
 
 	int getHighCardOnStraightFlush();
 	int getMostRepeatedCard();
+	int get2ndMostRepeatedCard();
 	Card* getHighCardInReverseOrder(int minusOrder); // 0, -1, -2, => Last, previousToLast, previous to PreviousLast
 
 private:
