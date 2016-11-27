@@ -129,6 +129,17 @@ int Hand::getSuitWithMostCards() {
 	return idx;
 }
 
+int  Hand::getHighestRankOfSuit(int suit){
+	std::list<Card*>::iterator it;
+	int maxRank=0;
+	for (it=cardsInHand.begin(); it!=cardsInHand.end(); ++it) {
+		Card* card = *it;
+		if (card->suit == suit && card->getNumericRank()>maxRank)
+			maxRank = card->getNumericRank();
+	}
+	return maxRank;
+}
+
 int  Hand::getNextSuitWithMostCards(int suit) {
 	int idx = 0;
 	int max = 0;
@@ -268,13 +279,20 @@ void Hand::showCards() {
 		printf("Card:%d\n", card->getNumericRank());
 	}
 }
+
+/*
+int Hand::getSuitWithMostCards(){
+	return suitedMaxCount;
+}
+*/
+
 int Hand::evaluate() {
 	assert(cardsInHand.size() == 7);
 
 	this->sortCardsByNumericValue();
 
 	int suitMax = getSuitWithMostCards();
-	int suitedMaxCount = suitCountDict[suitMax];
+	suitedMaxCount = suitCountDict[suitMax];
 
 	if (suitedMaxCount>=5) {
 		if (isRoyalFlush(suitMax)) {

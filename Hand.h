@@ -34,6 +34,8 @@ class Hand {
 
 	Card* sortedCardsByNumericValue[7];
 
+	int suitedMaxCount;
+
 	int nCardsOnStraightFlush;
 	Card* cardsOnStraightFlush[7];
 
@@ -58,10 +60,11 @@ public:
 	int getMostRepeatedCard();
 	int get2ndMostRepeatedCard();
 	Card* getHighCardInReverseOrder(int minusOrder); // 0, -1, -2, => Last, previousToLast, previous to PreviousLast
+	int getHighestRankOfSuit(int suit);
+	int getSuitWithMostCards();
 
 private:
 	void sortCardsByNumericValue();
-	int  getSuitWithMostCards();
 	int  getNextSuitWithMostCards(int suit);
 	bool isRoyalFlush(int suit);
 	bool isStraightFlush(int suit);

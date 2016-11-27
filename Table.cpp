@@ -90,6 +90,21 @@ void Table::evaluateHandsWithBoard(){
 				count[0][TER_TIE] += 1;
 				count[1][TER_TIE] += 1;
 			}
+		} else if(handResults[0] == HER_FLUSH) {
+			int s1 = playerHands[0]->getSuitWithMostCards();
+			int s2 = playerHands[1]->getSuitWithMostCards();
+			int c1 = playerHands[0]->getHighestRankOfSuit(s1);
+			int c2 = playerHands[1]->getHighestRankOfSuit(s2);
+			if (c1>c2) {
+				count[0][TER_WIN]  += 1;
+				count[1][TER_LOSE] += 1;
+			} else if (c2>c1) {
+				count[1][TER_WIN]  += 1;
+				count[0][TER_LOSE] += 1;
+			} else {
+				count[0][TER_TIE] += 1;
+				count[1][TER_TIE] += 1;
+			}
 		} else {
 			count[0][TER_UNDECIDED]  += 1;
 			count[1][TER_UNDECIDED]  += 1;
